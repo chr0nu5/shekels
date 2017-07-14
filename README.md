@@ -1,0 +1,2 @@
+# shekels
+Finance manager
