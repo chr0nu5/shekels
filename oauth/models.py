@@ -57,6 +57,13 @@ class OAuthApplication(models.Model):
                                         null=True)
     modified_date = models.DateTimeField(auto_now=True, blank=True, null=True)
 
+    def __str__(self):
+        return "{} {}".format(self.name, self.description)
+
+    class Meta:
+        verbose_name = "OAuthApplication"
+        verbose_name_plural = "OAuthApplications"
+
     def hash_keys(self):
         """Hide the keys on
         """

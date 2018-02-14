@@ -3,8 +3,6 @@ from django.conf.urls import include
 from django.conf.urls import url
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.views.generic import TemplateView
-from oauth import views as oauth_views
 
 admin.autodiscover()
 
