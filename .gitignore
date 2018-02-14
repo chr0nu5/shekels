@@ -9,6 +9,7 @@ __pycache__/
 # Distribution / packaging
 .Python
 env/
+.env/
 build/
 develop-eggs/
 dist/
@@ -99,3 +100,17 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+.DS_Store
+
+__pycache__/*
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
+*.zip
+.vscode
+
+xray_config_error.log
+api/media/*
