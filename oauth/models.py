@@ -15,12 +15,14 @@ class OAuthApplication(models.Model):
     Attributes:
         application_type (int): application behavior
         APPLICATION_TYPES (obj): list of application types
+        created_date (TYPE): Description
         description (str): application description
         EXTERNAL (int): an external application
         hashed_key (str): the hashed application key
         hashed_secret (str): the hashed application key
         INTERNAL (int): an internal application
         key (str): application key
+        modified_date (TYPE): Description
         name (str): application name
         secret (str): application secret
     """
@@ -51,10 +53,6 @@ class OAuthApplication(models.Model):
                            db_index=True, unique=True)
     secret = models.CharField(max_length=255, blank=False, null=False,
                               db_index=True, unique=True)
-    callback_data = JSONField(default={})
-    callback_notify_extract_url = models.URLField(null=True, blank=True)
-    callback_notify_proposal_url = models.URLField(null=True, blank=True)
-    callback_notify_ticket_url = models.URLField(null=True, blank=True)
     created_date = models.DateTimeField(auto_now_add=True, blank=True,
                                         null=True)
     modified_date = models.DateTimeField(auto_now=True, blank=True, null=True)
