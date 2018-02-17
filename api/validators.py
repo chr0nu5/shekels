@@ -21,6 +21,29 @@ class ClientSerializer(serializers.Serializer):
     password = serializers.CharField(max_length=128)
 
 
+class FundsSerializer(serializers.Serializer):
+
+    """Update client credit and savings
+
+    Attributes:
+        credit (float): the bank credit
+        savings (float): the bank savings
+    """
+
+    credit = serializers.DecimalField(
+        max_digits=9,
+        decimal_places=2,
+        coerce_to_string=None,
+        max_value=1000000,
+        min_value=0.01)
+    savings = serializers.DecimalField(
+        max_digits=9,
+        decimal_places=2,
+        coerce_to_string=None,
+        max_value=1000000,
+        min_value=0.01)
+
+
 class RegisterSerializer(serializers.ModelSerializer):
 
     """Client Register Serializer
@@ -56,7 +79,7 @@ class EntrySerializer(serializers.Serializer):
     order = serializers.IntegerField(max_value=10, min_value=1)
     date = serializers.DateTimeField()
     value = serializers.DecimalField(
-        max_digits=7,
+        max_digits=9,
         decimal_places=2,
         coerce_to_string=None,
         max_value=1000000,
@@ -67,7 +90,7 @@ class EntrySerializer(serializers.Serializer):
 class UpdateEntrySerializer(serializers.Serializer):
 
     value = serializers.DecimalField(
-        max_digits=7,
+        max_digits=9,
         decimal_places=2,
         coerce_to_string=None,
         max_value=1000000,

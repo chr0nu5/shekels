@@ -30,37 +30,42 @@ urlpatterns = [
     # client update password
     url(r'^api/v1/update_password/$',
         ClientViews.UpdatePasswordView.as_view(),
-        name='profile'),
+        name='update_password'),
+
+    # client update password
+    url(r'^api/v1/update_funds/$',
+        ClientViews.UpdateFundsView.as_view(),
+        name='update_funds'),
 
     # client new entry
     url(r'^api/v1/new_entry/$',
         EntryViews.NewEntryView.as_view(),
-        name='new-entry'),
+        name='new_entry'),
 
     # update a entry by id
     url(r'^api/v1/entry/(?P<id>\d+)/$',
         EntryViews.UpdateEntryView.as_view(),
-        name='entries-year'),
+        name='update_entry'),
 
     # client entries (all)
     url(r'^api/v1/entries/$',
         EntryViews.ListEntriesView.as_view(),
-        name='entries-year'),
+        name='all_entries'),
 
     # client entries by year
     url(r'^api/v1/entries/(?P<year>\d+)/$',
         EntryViews.ListEntriesView.as_view(),
-        name='entries-year'),
+        name='entries_year'),
 
     # client entries by month
     url(r'^api/v1/entries/(?P<year>\d+)/(?P<month>\d+)/$',
         EntryViews.ListEntriesView.as_view(),
-        name='entries-year'),
+        name='entries_month'),
 
     # client entries by year
     url(r'^api/v1/entries/(?P<year>\d+)/(?P<month>\d+)/(?P<day>\d+)/$',
         EntryViews.ListEntriesView.as_view(),
-        name='entries-year'),
+        name='entries_day'),
 
     # admin urls
     url(r'^admin/', include(admin.site.urls))

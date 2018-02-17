@@ -3,11 +3,13 @@ import logging
 from .models import Client
 from api.decorators import authenticate_application
 from api.validators import ClientSerializer
+from api.validators import FundsSerializer
 from api.validators import PasswordSerializer
 from api.validators import RegisterSerializer
 from django.contrib.auth import authenticate
 from rest_framework import status
 from rest_framework import views
+from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 
 
@@ -118,7 +120,7 @@ class ProfileView(views.APIView):
 class UpdatePasswordView(views.APIView):
 
     @authenticate_application()
-    def post(self, request, *args, **kwargs):
+    def put(self, request, *args, **kwargs):
         """Update a user password
 
         Args:
@@ -140,5 +142,35 @@ class UpdatePasswordView(views.APIView):
         else:
             return Response({
                 "error_code": "INVALID_UPDATE",
+                "errors": serializer.errors
+            }, status=status.HTTP_400_BAD_REQUEST)
+
+
+class UpdateFundsView(views.APIView):
+
+    @authenticate_application()
+    def put(self, request, *args, **kwargs):
+        """Update a user credit and savings
+
+        Args:
+            request (TYPE): Description
+            *args: Description
+            **kwargs: Description
+
+        Returns:
+            JSON: response
+        """
+
+        serializer = FundsSerializer(data=request.data)
+
+        if serializer.is_valid():
+            client = Client.objects.get(username=self.request.user.username)
+            client.credit = request.data.get("credit")
+            client.savings = request.data.get("savings")
+            client.save()
+            return Response({})
+        else:
+            return Response({
+                "error_code": "INVALID_FUNDS_UPDATE",
                 "errors": serializer.errors
             }, status=status.HTTP_400_BAD_REQUEST)
