@@ -1,12 +1,12 @@
+from clients.models import Client
 from django.db import models
-from users.models import User
 
 # Create your models here.
 
 
 class Entry(models.Model):
 
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(Client)
     order = models.IntegerField()
     date = models.DateTimeField()
     comment = models.CharField(max_length=255,
@@ -20,7 +20,7 @@ class Entry(models.Model):
                                          null=True)
 
     def __str__(self):
-        return self.user.email
+        return self.user.username
 
     class Meta:
         verbose_name = "Entry"

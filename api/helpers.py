@@ -14,14 +14,11 @@ class TimeZoneHelper:
         try:
             if isinstance(date, str):
                 date = parse(date)
-            logging.info("Will try to convert {}".format(date))
             date = datetime.datetime.combine(
                 date, datetime.datetime.min.time())
             date = pytz.timezone('UTC').localize(date, is_dst=None)
-            logging.info("Converted date {}".format(
-                date.astimezone(self.timezone)))
             return date.astimezone(self.timezone)
         except Exception as e:
             logging.error(e)
-            logging.error("Error converting date {}".format(date))
+            pass
         return date

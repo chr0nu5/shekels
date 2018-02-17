@@ -39,8 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework.authtoken',
     'oauth',
-    'users',
+    'clients',
     'entries'
 ]
 
@@ -119,3 +120,12 @@ STATICFILES_DIRS = [
 
 MEDIA_ROOT = os.path.join(os.path.dirname(__file__), 'media')
 MEDIA_URL = '/media/'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    )
+}
+
+AUTHENTICATION_BACKENDS = ['api.model_backend.ClientBackend']
