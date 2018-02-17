@@ -8,7 +8,8 @@ class Entry(models.Model):
 
     user = models.ForeignKey(Client)
     order = models.IntegerField()
-    date = models.DateTimeField()
+    date = models.DateField()
+    value = models.DecimalField(max_digits=30, decimal_places=2, default=0)
     comment = models.CharField(max_length=255,
                                null=True,
                                blank=True)
@@ -20,8 +21,9 @@ class Entry(models.Model):
                                          null=True)
 
     def __str__(self):
-        return self.user.username
+        return str(self.value)
 
     class Meta:
         verbose_name = "Entry"
         verbose_name_plural = "Entries"
+        ordering = ['date', 'order']

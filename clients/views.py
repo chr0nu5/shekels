@@ -6,10 +6,8 @@ from api.validators import ClientSerializer
 from api.validators import PasswordSerializer
 from api.validators import RegisterSerializer
 from django.contrib.auth import authenticate
-from django.shortcuts import render
 from rest_framework import status
 from rest_framework import views
-from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 
 

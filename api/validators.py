@@ -1,4 +1,5 @@
 from clients.models import Client
+from entries.models import Entry
 from rest_framework import serializers
 
 
@@ -9,11 +10,26 @@ def required(value):
 
 class ClientSerializer(serializers.Serializer):
 
+    """Client Login Serializer
+
+    Attributes:
+        password (str): the password
+        username (str): the username
+    """
+
     username = serializers.CharField(max_length=150)
     password = serializers.CharField(max_length=128)
 
 
 class RegisterSerializer(serializers.ModelSerializer):
+
+    """Client Register Serializer
+
+    Attributes:
+        email (str): the email custom validator
+        first_name (str): the first name custom validator
+        last_name (str): the last name custom validator
+    """
 
     first_name = serializers.CharField(validators=[required])
     last_name = serializers.CharField(validators=[required])
@@ -26,4 +42,34 @@ class RegisterSerializer(serializers.ModelSerializer):
 
 class PasswordSerializer(serializers.Serializer):
 
+    """Client Password Update Serializer
+
+    Attributes:
+        password (TYPE): Description
+    """
+
     password = serializers.CharField(max_length=128)
+
+
+class EntrySerializer(serializers.Serializer):
+
+    order = serializers.IntegerField(max_value=10, min_value=1)
+    date = serializers.DateTimeField()
+    value = serializers.DecimalField(
+        max_digits=7,
+        decimal_places=2,
+        coerce_to_string=None,
+        max_value=1000000,
+        min_value=0.01)
+    comment = serializers.CharField(max_length=255, allow_blank=True)
+
+
+class UpdateEntrySerializer(serializers.Serializer):
+
+    value = serializers.DecimalField(
+        max_digits=7,
+        decimal_places=2,
+        coerce_to_string=None,
+        max_value=1000000,
+        min_value=0.01)
+    comment = serializers.CharField(max_length=255, allow_blank=True)
