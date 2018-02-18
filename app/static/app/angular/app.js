@@ -19,10 +19,13 @@ var shekels = angular.module('shekels', ['ngTouch', 'ngRoute', 'ngAnimate', 'ngC
 shekels
     .config(function($routeProvider, $locationProvider, $httpProvider) {
         $routeProvider
+            // home -> default route
             .when('/app', {
                 templateUrl: '/static/app/templates/entries.html',
-                controller: 'HomeController'
+                controller: 'EntriesController'
             })
+
+            // user management views
             .when('/app/login', {
                 templateUrl: '/static/app/templates/login.html',
                 controller: 'LoginController'
@@ -31,15 +34,16 @@ shekels
                 templateUrl: '/static/app/templates/signup.html',
                 controller: 'JoinController'
             })
-            .when('/app/forgot-password', {
-                templateUrl: '/static/app/templates/forgot-password.html',
-                controller: 'JoinController'
-            })
-            .when('/app/:year', {
+
+            // entries views
+            .when('/app/:year/:month/', {
                 templateUrl: '/static/app/templates/entries.html',
                 controller: 'EntriesController'
-            })
-            ;
+            });
+
+            // .when('/app/forgot-password', {
+            //     templateUrl: '/static/app/templates/forgot-password.html'
+            // });
 
         $routeProvider
             .otherwise({
