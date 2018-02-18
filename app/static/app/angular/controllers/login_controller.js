@@ -1,0 +1,67 @@
+shekels.controller('LoginController', function($rootScope, $scope, $http, $sce, $location) {
+    $scope.login = {};
+    $scope.message = "Entrar";
+
+    // var url = $location.search().url;
+    // $rootScope.url = $location.path();
+
+    // $scope.auth = function() {
+    //     $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
+    //     $rootScope.loader();
+    //     $rootScope.track('Login','Tentativa');
+    //     $http({
+    //             method: 'POST',
+    //             data: $.param($scope.login),
+    //             url: API_URL + '/oauth/token',
+    //         })
+    //         .then(function(data) {
+    //             if (data.data.error) {
+    //                 $rootScope.track('Login','Erro');
+    //                 if (data.data.identifier == 'OAuth:AccountNotConfirmed') {
+    //                     $scope.message = "Conta não confirmada.";
+    //                     storage.deleteKey('token');
+    //                     $rootScope.loaderRemove();
+    //                 } else {
+    //                     $scope.message = "Email ou senha inválidos.";
+    //                     storage.deleteKey('token');
+    //                     $rootScope.loaderRemove();
+    //                     console.log(data.data.error);
+    //                 }
+    //             } else {
+    //                 $rootScope.track('Login','Sucesso');
+    //                 $http({
+    //                         method: 'POST',
+    //                         url: API_URL + '/save/token',
+    //                         data: $.param({
+    //                             token: data.data.token
+    //                         })
+    //                     })
+    //                     .success(function(data) {
+    //                         if (data.error) {
+    //                         } else {
+    //                             $http({
+    //                                     method: 'GET',
+    //                                     url: API_URL + '/v1/me'
+    //                                 })
+    //                                 .success(function(data) {
+    //                                     $rootScope.loaderRemove();
+    //                                     if (data.error) {
+
+    //                                     } else {
+    //                                         storage.set('user', data);
+    //                                         if (url) {
+    //                                             window.location = url;
+    //                                         } else {
+    //                                             $location.path("/u");
+    //                                         }
+    //                                     }
+    //                                 });
+    //                         }
+    //                     });
+    //             }
+    //         });
+    // }
+
+    // $rootScope.bg_number = 3;
+
+});

@@ -5,6 +5,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 
 # API URLs
+from app import views as AppViews
 from clients import views as ClientViews
 from entries import views as EntryViews
 
@@ -68,5 +69,9 @@ urlpatterns = [
         name='entries_day'),
 
     # admin urls
-    url(r'^admin/', include(admin.site.urls))
+    url(r'^admin/', include(admin.site.urls)),
+
+    # client index
+    url(r'^', AppViews.index, name='index')
+
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -16,32 +16,6 @@ services:
       - "9000:8000"
     depends_on:
       - db
-      - redis
-
-  udp_server:
-    build:
-      context: .
-    container_name: udp_server
-    volumes:
-      - .:/app
-    env_file:
-      .env
-    expose:
-      - "2727"
-    ports:
-      - "2727:2727"
-    depends_on:
-      - redis
-    command: python -u /app/manage.py udp_server
-
-  aws_x_ray:
-    image: namshi/aws-xray
-    ports:
-      - "2000:2000"
-    expose:
-      - "2000"
-    env_file:
-      .env
 
   db:
     image: postgres
@@ -49,10 +23,3 @@ services:
       - "5432:5432"
     expose:
       - "5432"
-
-  redis:
-    image: redis:alpine
-    ports:
-      - "6379:6379"
-    expose:
-      - "6379"
