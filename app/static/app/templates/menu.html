@@ -1,0 +1,93 @@
+<div class="fixed-sidebar-left">
+    <ul class="nav navbar-nav side-nav nicescroll-bar">
+        <li class="navigation-header">
+            <span>User</span>
+            <i class="zmdi zmdi-more"></i>
+        </li>
+        <li>
+            <a ng-href="/app/profile/">
+                <div class="pull-left"><i class="zmdi zmdi-account mr-20"></i><span class="right-nav-text">Profile</span></div>
+                <div class="clearfix"></div>
+            </a>
+            <a ng-href="#" ng-click="logout()">
+                <div class="pull-left"><i class="zmdi zmdi-power mr-20"></i><span class="right-nav-text">Log Out</span></div>
+                <div class="clearfix"></div>
+            </a>
+        </li>
+        <li class="navigation-header">
+            <span>Years</span>
+            <i class="zmdi zmdi-more"></i>
+        </li>
+        <li>
+            <a ng-href="/app/{{previous_year}}/">
+                <div class="pull-left"><i class="zmdi zmdi-calendar mr-20"></i><span class="right-nav-text">{{previous_year}}</span></div>
+                <div class="clearfix"></div>
+            </a>
+            <a class="active" ng-href="/app/">
+                <div class="pull-left"><i class="zmdi zmdi-calendar mr-20"></i><span class="right-nav-text">{{year}}</span></div>
+                <div class="clearfix"></div>
+            </a>
+            <a ng-href="/app/{{next_year}}/">
+                <div class="pull-left"><i class="zmdi zmdi-calendar mr-20"></i><span class="right-nav-text">{{next_year}}</span></div>
+                <div class="clearfix"></div>
+            </a>
+        </li>
+        <li>
+            <hr class="light-grey-hr mb-10" />
+        </li>
+        <li class="navigation-header">
+            <span>Months</span>
+            <i class="zmdi zmdi-more"></i>
+        </li>
+        <li>
+            <a class="{{ month == 1 ? 'active' : '' }}" ng-href="/app/{{year}}/1/">
+                <div class="pull-left"><i class="zmdi zmdi-calendar-note mr-20"></i><span class="right-nav-text">January</span></div>
+                <div class="clearfix"></div>
+            </a>
+            <a class="{{ month == 2 ? 'active' : '' }}" href="/app/{{year}}/2/">
+                <div class="pull-left"><i class="zmdi zmdi-calendar-note mr-20"></i><span class="right-nav-text">February</span></div>
+                <div class="clearfix"></div>
+            </a>
+            <a class="{{ month == 3 ? 'active' : '' }}" ng-href="/app/{{year}}/3/">
+                <div class="pull-left"><i class="zmdi zmdi-calendar-note mr-20"></i><span class="right-nav-text">March</span></div>
+                <div class="clearfix"></div>
+            </a>
+            <a class="{{ month == 4 ? 'active' : '' }}" ng-href="/app/{{year}}/4/">
+                <div class="pull-left"><i class="zmdi zmdi-calendar-note mr-20"></i><span class="right-nav-text">April</span></div>
+                <div class="clearfix"></div>
+            </a>
+            <a class="{{ month == 5 ? 'active' : '' }}" ng-href="/app/{{year}}/5/">
+                <div class="pull-left"><i class="zmdi zmdi-calendar-note mr-20"></i><span class="right-nav-text">March</span></div>
+                <div class="clearfix"></div>
+            </a>
+            <a class="{{ month == 6 ? 'active' : '' }}" ng-href="/app/{{year}}/6/">
+                <div class="pull-left"><i class="zmdi zmdi-calendar-note mr-20"></i><span class="right-nav-text">June</span></div>
+                <div class="clearfix"></div>
+            </a>
+            <a class="{{ month == 7 ? 'active' : '' }}" ng-href="/app/{{year}}/7/">
+                <div class="pull-left"><i class="zmdi zmdi-calendar-note mr-20"></i><span class="right-nav-text">July</span></div>
+                <div class="clearfix"></div>
+            </a>
+            <a class="{{ month == 8 ? 'active' : '' }}" ng-href="/app/{{year}}/8/">
+                <div class="pull-left"><i class="zmdi zmdi-calendar-note mr-20"></i><span class="right-nav-text">August</span></div>
+                <div class="clearfix"></div>
+            </a>
+            <a class="{{ month == 9 ? 'active' : '' }}" ng-href="/app/{{year}}/9/">
+                <div class="pull-left"><i class="zmdi zmdi-calendar-note mr-20"></i><span class="right-nav-text">September</span></div>
+                <div class="clearfix"></div>
+            </a>
+            <a class="{{ month == 10 ? 'active' : '' }}" ng-href="/app/{{year}}/10/">
+                <div class="pull-left"><i class="zmdi zmdi-calendar-note mr-20"></i><span class="right-nav-text">October</span></div>
+                <div class="clearfix"></div>
+            </a>
+            <a class="{{ month == 11 ? 'active' : '' }}" ng-href="/app/{{year}}/11/">
+                <div class="pull-left"><i class="zmdi zmdi-calendar-note mr-20"></i><span class="right-nav-text">November</span></div>
+                <div class="clearfix"></div>
+            </a>
+            <a class="{{ month == 12 ? 'active' : '' }}" ng-href="/app/{{year}}/12/">
+                <div class="pull-left"><i class="zmdi zmdi-calendar-note mr-20"></i><span class="right-nav-text">December</span></div>
+                <div class="clearfix"></div>
+            </a>
+        </li>
+    </ul>
+</div>

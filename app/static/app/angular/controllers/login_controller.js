@@ -1,6 +1,26 @@
 shekels.controller('LoginController', function($rootScope, $scope, $http, $sce, $location) {
+
+    $http.defaults.headers.post["Content-Type"] = "application/json; charset=utf-8";
+    $http.defaults.headers.post["Authorization"] = "Bearer dGRZQ2hSdWpKcXk3Qm5yVUdmM2NxM3NxNjdtZ1NDcTQ6WHJ6M3NDQkNoVDg5dUNiVG9DdHo5bTZCcnFZRWZtVEhuSzhwOEd1TGNteWdrdEN0WmV0M2VwVUhWSlU2QnBaZA==";
+
     $scope.login = {};
-    $scope.message = "Entrar";
+
+    $scope.auth = function() {
+        $http({
+                method: "POST",
+                data: JSON.stringify($scope.login),
+                contentType: "application/json",
+                url: API_URL + "/login/"
+            })
+            .then(function(data) {
+                var token = data.data.token;
+                storage.set("token", token);
+                $location.path('/app/');
+            })
+            .catch(function(data) {
+                $rootScope.showErrors(data.data.errors);
+            });
+    }
 
     // var url = $location.search().url;
     // $rootScope.url = $location.path();

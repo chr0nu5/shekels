@@ -1,16 +1,30 @@
-shekels.controller('MainController', function($rootScope, $scope, $http, $sce, $location) {
+shekels.controller('MainController', function($rootScope, $scope, $http, $sce, $location, $routeParams) {
+
+    changeDateFromUrl($rootScope, $routeParams);
+
+    $rootScope.showErrors = function(errors) {
+        $.toast().reset('all');
+        Object.keys(errors).forEach(function(key) {
+            $.toast({
+                heading: 'Oops! 🤔',
+                text: errors[key],
+                position: 'top-right',
+                loaderBg: '#892121',
+                icon: 'error',
+                hideAfter: 3000
+            });
+        });
+    }
 
     // $scope.header_height = 250;
     // $scope.search = function() {
     //     $('html, body').animate({ scrollTop: 0 }, '1000', 'swing');
     //     $location.path('/h/search');
     // }
-    // $scope.logout = function() {
-    //     storage.deleteKey('user');
-    //     $('#page-menu').removeClass('pagemenu-active', false);
-    //     $('#top-cart').removeClass('top-cart-open');
-    //     $location.path('/h/minha-conta');
-    // }
+    $rootScope.logout = function() {
+        storage.deleteKey('token');
+        $location.path('/app/login/');
+    }
 
     // $rootScope.goBack = function() {
     //     window.history.back();

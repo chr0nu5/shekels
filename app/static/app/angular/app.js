@@ -1,4 +1,4 @@
-var API_URL = '/api/v1/';
+var API_URL = '/api/v1';
 var storage = $.jStorage;
 
 (function(i, s, o, g, r, a, m) {
@@ -20,19 +20,25 @@ shekels
     .config(function($routeProvider, $locationProvider, $httpProvider) {
         $routeProvider
             // home -> default route
-            .when('/app', {
+            .when('/app/', {
                 templateUrl: '/static/app/templates/entries.html',
                 controller: 'EntriesController'
             })
 
             // user management views
-            .when('/app/login', {
+            .when('/app/login/', {
                 templateUrl: '/static/app/templates/login.html',
                 controller: 'LoginController'
             })
-            .when('/app/sign-up', {
+            .when('/app/sign-up/', {
                 templateUrl: '/static/app/templates/signup.html',
                 controller: 'JoinController'
+            })
+
+            // entries views
+            .when('/app/:year/', {
+                templateUrl: '/static/app/templates/entries.html',
+                controller: 'EntriesController'
             })
 
             // entries views
@@ -52,11 +58,26 @@ shekels
 
         $locationProvider.html5Mode(true);
     })
-    .run(function($rootScope, $location, $http) {
+    .run(function($rootScope, $routeParams) {
         $rootScope.$on('$routeChangeSuccess', function() {
-            // do anything on routechange
+            if (!storage.get("token")) {
+                $rootScope.logout();
+            }
+            changeDateFromUrl($rootScope, $routeParams);
         })
     })
     .run(['$route', '$rootScope', '$location', function($route, $rootScope, $location) {
         ga('send', 'pageview', { page: $location.url() });
     }]);
+
+var changeDateFromUrl = function(scope, params) {
+    scope.year = parseInt(params.year) ? parseInt(params.year) : new Date().getFullYear();
+    scope.previous_year = eval(scope.year - 1);
+    scope.next_year = eval(scope.year + 1);
+    scope.month = parseInt(params.month) ? parseInt(params.month) : new Date().getMonth() + 1;
+
+    if (!params.month && scope.year != new Date().getFullYear()){
+        scope.month = 1;
+    }
+
+}
