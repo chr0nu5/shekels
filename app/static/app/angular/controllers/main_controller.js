@@ -6,8 +6,8 @@ shekels.controller('MainController', function($rootScope, $scope, $http, $sce, $
         $.toast().reset('all');
         Object.keys(errors).forEach(function(key) {
             $.toast({
-                heading: 'Oops! 🤔',
-                text: errors[key],
+                heading: '😱',
+                text: firstLetterUppercase(key) + ": " + errors[key],
                 position: 'top-right',
                 loaderBg: '#892121',
                 icon: 'error',

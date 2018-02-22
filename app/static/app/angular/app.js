@@ -34,22 +34,19 @@ shekels
                 templateUrl: '/static/app/templates/signup.html',
                 controller: 'JoinController'
             })
-
             // entries views
             .when('/app/:year/', {
                 templateUrl: '/static/app/templates/entries.html',
                 controller: 'EntriesController'
             })
-
             // entries views
             .when('/app/:year/:month/', {
                 templateUrl: '/static/app/templates/entries.html',
                 controller: 'EntriesController'
             });
-
-            // .when('/app/forgot-password', {
-            //     templateUrl: '/static/app/templates/forgot-password.html'
-            // });
+        // .when('/app/forgot-password/', {
+        //     templateUrl: '/static/app/templates/forgot-password.html'
+        // });
 
         $routeProvider
             .otherwise({
@@ -58,9 +55,9 @@ shekels
 
         $locationProvider.html5Mode(true);
     })
-    .run(function($rootScope, $routeParams) {
+    .run(function($rootScope, $routeParams, $location) {
         $rootScope.$on('$routeChangeSuccess', function() {
-            if (!storage.get("token")) {
+            if (!storage.get("token") && $location.path() != '/app/sign-up/' && $location.path() != '/app/forgot-password/') {
                 $rootScope.logout();
             }
             changeDateFromUrl($rootScope, $routeParams);
@@ -76,8 +73,13 @@ var changeDateFromUrl = function(scope, params) {
     scope.next_year = eval(scope.year + 1);
     scope.month = parseInt(params.month) ? parseInt(params.month) : new Date().getMonth() + 1;
 
-    if (!params.month && scope.year != new Date().getFullYear()){
+    if (!params.month && scope.year != new Date().getFullYear()) {
         scope.month = 1;
     }
 
+}
+
+var firstLetterUppercase = function(string)
+{
+    return string.charAt(0).toUpperCase() + string.slice(1);
 }

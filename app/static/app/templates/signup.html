@@ -8,7 +8,7 @@
         </div>
         <div class="form-group mb-0 pull-right">
             <span class="inline-block pr-10">Already have an account?</span>
-            <a class="inline-block btn btn-success btn-rounded btn-outline" ng-href="/app/login">Log In</a>
+            <a class="inline-block btn btn-success btn-rounded btn-outline" ng-href="/app/login/">Log In</a>
         </div>
         <div class="clearfix"></div>
     </header>
@@ -27,19 +27,27 @@
                                 <div class="form-wrap">
                                     <form>
                                         <div class="form-group">
-                                            <label class="control-label mb-10">Email address</label>
-                                            <input type="email" class="form-control" required placeholder="Enter email">
+                                            <label class="control-label mb-10">First Name</label>
+                                            <input ng-model="join.first_name" type="text" class="form-control" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label mb-10">Last Name</label>
+                                            <input ng-model="join.last_name" type="text" class="form-control" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label mb-10">Email (username)</label>
+                                            <input ng-model="join.username" type="text" class="form-control" required>
                                         </div>
                                         <div class="form-group">
                                             <label class="pull-left control-label mb-10">Password</label>
-                                            <input type="password" class="form-control" required placeholder="Enter pwd">
+                                            <input ng-model="join.password" type="password" class="form-control" required>
                                         </div>
                                         <div class="form-group">
                                             <label class="pull-left control-label mb-10">Confirm Password</label>
-                                            <input type="password" class="form-control" required placeholder="Enter pwd">
+                                            <input ng-model="join.confirm_password" type="password" class="form-control" required>
                                         </div>
                                         <div class="form-group text-center">
-                                            <button type="submit" class="btn btn-success btn-rounded">Sign Up</button>
+                                            <button ng-click="register()" class="btn btn-success btn-rounded">Sign Up</button>
                                         </div>
                                     </form>
                                 </div>
