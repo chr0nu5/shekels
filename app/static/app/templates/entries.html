@@ -4,7 +4,7 @@
         <div class="mobile-only-brand pull-left">
             <div class="nav-header pull-left">
                 <div class="logo-wrap">
-                    <a ng-href="/">
+                    <a ng-href="/app/">
                         <img class="brand-img" src="/static/app/img/logo.png" alt="Shekels"/>
                         <span class="brand-text">Shekels</span>
                     </a>
@@ -20,7 +20,38 @@
     <!-- Main Content -->
     <div class="page-wrapper">
         <div class="container-fluid pt-25">
-            <!-- content -->
+            <table class="tablesaw table-striped table-hover table-bordered table" data-tablesaw-mode="columntoggle">
+                <thead>
+                    <tr>
+                        <th scope="col" colspan="5" data-tablesaw-sortable-col data-tablesaw-priority="persist">Entries</th>
+                        <th scope="col">Balance</th>
+                        <th scope="col">+Credit</th>
+                        <th scope="col">+Savings</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="width: 2%">
+                            <input type="text" style="width: 100%; height: 100%; background: transparent; border: none; border-bottom: 1px solid #aeaeae" />
+                        </td>
+                        <td style="width: 2%">
+                            <input type="text" style="width: 100%; height: 100%; background: transparent; border: none; border-bottom: 1px solid #aeaeae" />
+                        </td>
+                        <td style="width: 2%">
+                            <input type="text" style="width: 100%; height: 100%; background: transparent; border: none; border-bottom: 1px solid #aeaeae" />
+                        </td>
+                        <td style="width: 2%">
+                            <input type="text" style="width: 100%; height: 100%; background: transparent; border: none; border-bottom: 1px solid #aeaeae" />
+                        </td>
+                        <td style="width: 2%">
+                            <input type="text" style="width: 100%; height: 100%; background: transparent; border: none; border-bottom: 1px solid #aeaeae" />
+                        </td>
+                        <td style="width: 1%">$590,00</td>
+                        <td style="width: 1%">$1590,00</td>
+                        <td style="width: 1%">$2590,00</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
         <!-- Footer -->
         <footer class="footer container-fluid pl-30 pr-30">

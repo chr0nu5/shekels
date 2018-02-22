@@ -34,6 +34,10 @@ shekels
                 templateUrl: '/static/app/templates/signup.html',
                 controller: 'JoinController'
             })
+            .when('/app/profile/', {
+                templateUrl: '/static/app/templates/profile.html',
+                controller: 'ProfileController'
+            })
             // entries views
             .when('/app/:year/', {
                 templateUrl: '/static/app/templates/entries.html',
