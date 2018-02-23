@@ -65,6 +65,11 @@ shekels
                 $rootScope.logout();
             }
             changeDateFromUrl($rootScope, $routeParams);
+
+            $('body').on('focus', 'input', function() {
+                $("input.money").maskMoney({prefix:'R$ ', allowNegative: true, thousands:'.', decimal:',', affixesStay: true});
+            });
+
         })
     })
     .run(['$route', '$rootScope', '$location', function($route, $rootScope, $location) {
