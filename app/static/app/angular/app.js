@@ -67,7 +67,7 @@ shekels
             changeDateFromUrl($rootScope, $routeParams);
 
             $('body').on('focus', 'input', function() {
-                $("input.money").maskMoney({prefix:'R$ ', allowNegative: true, thousands:'.', decimal:',', affixesStay: true});
+                $("input.money").maskMoney({ prefix: 'R$ ', allowNegative: true, thousands: '.', decimal: ',', affixesStay: true });
             });
 
         })
@@ -75,6 +75,10 @@ shekels
     .run(['$route', '$rootScope', '$location', function($route, $rootScope, $location) {
         ga('send', 'pageview', { page: $location.url() });
     }]);
+
+String.prototype.replaceAll = function(str1, str2, ignore) {
+    return this.replace(new RegExp(str1.replace(/([\/\,\!\\\^\$\{\}\[\]\(\)\.\*\+\?\|\<\>\-\&])/g, "\\$&"), (ignore ? "gi" : "g")), (typeof(str2) == "string") ? str2.replace(/\$/g, "$$$$") : str2);
+}
 
 var changeDateFromUrl = function(scope, params) {
     scope.year = parseInt(params.year) ? parseInt(params.year) : new Date().getFullYear();
@@ -88,7 +92,13 @@ var changeDateFromUrl = function(scope, params) {
 
 }
 
-var firstLetterUppercase = function(string)
-{
+var firstLetterUppercase = function(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+var clear_money = function(value) {
+    value = value.replaceAll("R$ ", "");
+    value = value.replaceAll(".", "");
+    value = value.replaceAll(",", ".");
+    return parseFloat(value);
 }
