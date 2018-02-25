@@ -34,7 +34,7 @@ shekels.controller('EntriesController', function($rootScope, $scope, $http, $sce
                 });
 
                 data.push({
-                    period: e.day,
+                    period: "" + parseInt(e.day.split("-")[2]),
                     income: income,
                     expenses: expenses,
                     balance: e.balance
@@ -53,13 +53,12 @@ shekels.controller('EntriesController', function($rootScope, $scope, $http, $sce
                 lineWidth: 2,
                 pointStrokeColors: ['#8BC34A', '#962828', '#f8b32d'],
                 behaveLikeLine: true,
-                grid: false,
+                grid: true,
                 hideHover: 'auto',
                 lineColors: ['#8BC34A', '#962828', '#f8b32d'],
                 resize: true,
                 gridTextColor: '#878787',
                 gridTextFamily: "Roboto"
-
             });
 
         })
@@ -116,7 +115,7 @@ shekels.controller('EntriesController', function($rootScope, $scope, $http, $sce
                 });
 
                 data.push({
-                    period: date,
+                    period: "" + parseInt(date.split("-")[1]),
                     income: income,
                     expenses: expenses,
                     balance: parseFloat(balance)
@@ -136,10 +135,10 @@ shekels.controller('EntriesController', function($rootScope, $scope, $http, $sce
                 labels: ['Income', 'Expenses', 'Balance'],
                 pointSize: 2,
                 fillOpacity: 0,
-                lineWidth: 2,
+                lineWidth: 1,
                 pointStrokeColors: ['#8BC34A', '#962828', '#f8b32d'],
                 behaveLikeLine: true,
-                grid: false,
+                grid: true,
                 hideHover: 'auto',
                 lineColors: ['#8BC34A', '#962828', '#f8b32d'],
                 resize: true,
