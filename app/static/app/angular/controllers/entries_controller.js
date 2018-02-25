@@ -40,7 +40,6 @@ shekels.controller('EntriesController', function($rootScope, $scope, $http, $sce
                     balance: e.balance
                 });
 
-
             });
 
             Morris.Line({
@@ -68,7 +67,7 @@ shekels.controller('EntriesController', function($rootScope, $scope, $http, $sce
             console.log(data.data);
         });
 
-    // get the current entries (month) and project on the chart
+    // get the current entries (year) and project on the chart
     $http({
             method: "GET",
             url: API_URL + "/entries/" + $rootScope.year + "/",
@@ -77,57 +76,77 @@ shekels.controller('EntriesController', function($rootScope, $scope, $http, $sce
             $scope.year_entries = data.data.entries;
 
             var data = [];
+            var months = [
+                "January",
+                "February",
+                "March",
+                "April",
+                "May",
+                "June",
+                "July",
+                "August",
+                "September",
+                "October",
+                "November",
+                "December",
+            ]
 
-            console.log($scope.year_entries);
+            $.each(months, function(i_m, m) {
 
-            // $.each($scope.entries, function(i, e) {
-            //     // console.log(e);
+                var income = 0;
+                var expenses = 0;
+                var balance = 0;
 
-            //     var income = 0;
-            //     var expenses = 0;
+                $.each($scope.year_entries, function(i_d, d) {
+                    var month = parseInt(d.day.split("-")[1]);
+                    if (month == (i_m + 1)) {
+                        $.each(d.records, function(i_r, r) {
+                            if (r.value) {
+                                var value = parseFloat(r.value.replace("$", ""));
+                                if (value >= 0) {
+                                    income += value;
+                                } else {
+                                    expenses += value;
+                                }
+                            }
+                        });
+                        balance = d.balance;
+                        date = d.day
+                    }
+                });
 
-            //     $.each(e.records, function(i, r) {
-            //         if (r.value) {
-            //             value = parseFloat(r.value.replace("$", ""));
-            //             if (value >= 0) {
-            //                 income += value;
-            //             } else {
-            //                 expenses += value;
-            //             }
-            //         }
-            //     });
+                data.push({
+                    period: date,
+                    income: income,
+                    expenses: expenses,
+                    balance: parseFloat(balance)
+                })
 
-            //     data.push({
-            //         period: e.day,
-            //         income: income,
-            //         expenses: expenses,
-            //         balance: e.balance
-            //     });
+                console.log(income, expenses, balance);
 
+            });
 
-            // });
+            console.log(data);
 
-            // console.log(data);
+            Morris.Line({
+                element: 'year_projection',
+                data: data,
+                xkey: 'period',
+                ykeys: ['income', 'expenses', 'balance'],
+                labels: ['Income', 'Expenses', 'Balance'],
+                pointSize: 2,
+                fillOpacity: 0,
+                lineWidth: 2,
+                pointStrokeColors: ['#8BC34A', '#962828', '#f8b32d'],
+                behaveLikeLine: true,
+                grid: false,
+                hideHover: 'auto',
+                lineColors: ['#8BC34A', '#962828', '#f8b32d'],
+                resize: true,
+                gridTextColor: '#878787',
+                gridTextFamily: "Roboto"
 
-            // Morris.Line({
-            //     element: 'month_projection',
-            //     data: data,
-            //     xkey: 'period',
-            //     ykeys: ['income', 'expenses', 'balance'],
-            //     labels: ['Income', 'Expenses', 'Balance'],
-            //     pointSize: 2,
-            //     fillOpacity: 0,
-            //     lineWidth: 2,
-            //     pointStrokeColors: ['#8BC34A', '#962828', '#f8b32d'],
-            //     behaveLikeLine: true,
-            //     grid: false,
-            //     hideHover: 'auto',
-            //     lineColors: ['#8BC34A', '#962828', '#f8b32d'],
-            //     resize: true,
-            //     gridTextColor: '#878787',
-            //     gridTextFamily: "Roboto"
-
-            // });
+            });
 
         })
         .catch(function(data) {

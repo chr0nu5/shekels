@@ -1,0 +1,5 @@
+/* hide chart bottom label */
+
+text[text-anchor="middle"]{
+    opacity: 0;
+}

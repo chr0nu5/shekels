@@ -11,8 +11,6 @@ shekels.controller('ProfileController', function($rootScope, $scope, $http, $sce
         $scope.profile_update.credit = $("#credit").maskMoney('unmasked')[0];
         $scope.profile_update.savings = $("#savings").maskMoney('unmasked')[0];
 
-        console.log($scope.profile_update);
-
         $http({
                 method: "PUT",
                 data: JSON.stringify($scope.profile_update),
@@ -20,7 +18,6 @@ shekels.controller('ProfileController', function($rootScope, $scope, $http, $sce
                 url: API_URL + "/update_profile/"
             })
             .then(function(data) {
-                console.log(data.data);
                 $rootScope.showSuccess("Successfully updated!");
                 $rootScope.getProfile(function() {
                     $scope.profile_update.first_name = $rootScope.user.first_name;
@@ -28,7 +25,6 @@ shekels.controller('ProfileController', function($rootScope, $scope, $http, $sce
                 });
             })
             .catch(function(data) {
-                console.log(data.data);
                 $rootScope.showErrors(data.data.errors);
             });
     }
