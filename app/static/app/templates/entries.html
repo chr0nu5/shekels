@@ -64,7 +64,7 @@
                                 <span class="label label-{{e.balance < 0 ? 'danger' : 'success'}}">{{e.day|format_day}}</span>
                             </td>
                             <td ng-repeat="r in e.records" style="width: 25%" data-day="{{r.date}}">
-                                <input data-id="{{r.id}}" data-order="{{r.order}}" value="{{r.value}}" class="money" type="text" style="width: 100%; height: 100%; border: none; background: transparent;" />
+                                <input data-id="{{r.id}}" data-order="{{r.order}}" value="{{r.value}}" class="money entries text-{{r.naked_value >= 0 ? 'success' : 'danger'}} text-semibold" type="text" />
                             </td>
                             <td align="center">
                                 <span class="text-{{e.balance < 0 ? 'danger' : 'success'}} text-semibold">

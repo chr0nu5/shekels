@@ -85,8 +85,9 @@ class EntrySerializer(serializers.Serializer):
         decimal_places=2,
         coerce_to_string=None,
         max_value=1000000,
-        min_value=0.01)
-    comment = serializers.CharField(max_length=255, allow_blank=True)
+        min_value=-1000000)
+    comment = serializers.CharField(
+        max_length=255, allow_blank=True, allow_null=True)
 
 
 class UpdateEntrySerializer(serializers.Serializer):
@@ -96,5 +97,5 @@ class UpdateEntrySerializer(serializers.Serializer):
         decimal_places=2,
         coerce_to_string=None,
         max_value=1000000,
-        min_value=0.01)
-    comment = serializers.CharField(max_length=255, allow_blank=True)
+        min_value=-1000000)
+    comment = serializers.CharField(max_length=255, required=False)

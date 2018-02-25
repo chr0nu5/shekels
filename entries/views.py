@@ -132,6 +132,7 @@ class ListEntriesView(views.APIView):
                                     r.get("value")*-1) if r.get(
                                     "value") < 0 else "${}".format(
                                     r.get("value")),
+                                "naked_value": r.get("value"),
                                 "comment": r.get("comment"),
                                 "created_date": r.get("created_date"),
                                 "modified_date": r.get("modified_date")
