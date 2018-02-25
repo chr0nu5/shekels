@@ -20,41 +20,31 @@
     <!-- Main Content -->
     <div class="page-wrapper">
         <div class="container-fluid">
-            <table class="tablesaw table-striped table-hover table-bordered table" data-tablesaw-mode="columntoggle">
+            <table class="tablesaw table-hover table-bordered table mt-40" data-tablesaw-mode="columntoggle">
                 <thead>
                     <tr>
                         <th scope="col" colspan="5" data-tablesaw-sortable-col data-tablesaw-priority="persist">Entries</th>
                         <th scope="col">Balance</th>
-                        <th scope="col">+Credit</th>
-                        <th scope="col">+Savings</th>
+                        <th scope="col">+Credit&nbsp;(${{user.credit|format_money}})</th>
+                        <th scope="col">+Savings&nbsp;(${{user.savings|format_money}})</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td style="width: 2%">
-                            <input type="text" style="width: 100%; height: 100%; background: transparent; border: none; border-bottom: 1px solid #aeaeae" />
+                    <tr ng-repeat="e in entries">
+                        <td ng-repeat="r in e.records" style="width: 20%">
+                            <div class="form-group {{r.value < 0 ? 'has-error' : ''}} mb-0">
+                                <input value="{{r.value}}" class="form-control money" type="text" style="width: 100%; height: 100%; " />
+                            </div>
                         </td>
-                        <td style="width: 2%">
-                            <input type="text" style="width: 100%; height: 100%; background: transparent; border: none; border-bottom: 1px solid #aeaeae" />
-                        </td>
-                        <td style="width: 2%">
-                            <input type="text" style="width: 100%; height: 100%; background: transparent; border: none; border-bottom: 1px solid #aeaeae" />
-                        </td>
-                        <td style="width: 2%">
-                            <input type="text" style="width: 100%; height: 100%; background: transparent; border: none; border-bottom: 1px solid #aeaeae" />
-                        </td>
-                        <td style="width: 2%">
-                            <input type="text" style="width: 100%; height: 100%; background: transparent; border: none; border-bottom: 1px solid #aeaeae" />
-                        </td>
-                        <td style="width: 1%">$590,00</td>
-                        <td style="width: 1%">$1590,00</td>
-                        <td style="width: 1%">$2590,00</td>
+                        <td style="width: 1%">${{e.balance}}</td>
+                        <td style="width: 1%">${{e.credit}}</td>
+                        <td style="width: 1%">${{e.savings}}</td>
                     </tr>
                 </tbody>
             </table>
         </div>
         <!-- Footer -->
-        <ng-include stc="'/static/app/templates/footer.html'"></ng-include>
+        <ng-include src="'/static/app/templates/footer.html'"></ng-include>
         <!-- /Footer -->
     </div>
     <!-- /Main Content -->

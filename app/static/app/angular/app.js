@@ -1,5 +1,6 @@
-var API_URL = '/api/v1';
+var API_URL = "/api/v1";
 var storage = $.jStorage;
+var TOKEN = "eVptU3RSYXVDTlZpSm1IbUFvSllHZ3pCY3poWm95Y2Q6RFlVNUJxaU13R0VYcm02ZjNwZzVBcHlOQVNQalhjNkRkWTJ5WktNWmhpR1NuejhSY3NuRVZYMk5DSE5DWXdHdw==";
 
 (function(i, s, o, g, r, a, m) {
     i['GoogleAnalyticsObject'] = r;
@@ -67,7 +68,7 @@ shekels
             changeDateFromUrl($rootScope, $routeParams);
 
             $('body').on('focus', 'input', function() {
-                $("input.money").maskMoney({ prefix: 'R$ ', allowNegative: true, thousands: '.', decimal: ',', affixesStay: true });
+                maskMoneyForMoneyFields()
             });
 
         })
@@ -78,6 +79,21 @@ shekels
 
 String.prototype.replaceAll = function(str1, str2, ignore) {
     return this.replace(new RegExp(str1.replace(/([\/\,\!\\\^\$\{\}\[\]\(\)\.\*\+\?\|\<\>\-\&])/g, "\\$&"), (ignore ? "gi" : "g")), (typeof(str2) == "string") ? str2.replace(/\$/g, "$$$$") : str2);
+}
+
+Number.prototype.formatMoney = function(c, d, t){
+var n = this,
+    c = isNaN(c = Math.abs(c)) ? 2 : c,
+    d = d == undefined ? "." : d,
+    t = t == undefined ? "," : t,
+    s = n < 0 ? "-" : "",
+    i = String(parseInt(n = Math.abs(Number(n) || 0).toFixed(c))),
+    j = (j = i.length) > 3 ? j % 3 : 0;
+   return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
+ };
+
+var maskMoneyForMoneyFields = function() {
+    $("input.money").maskMoney({ prefix: '$', allowNegative: true, thousands: ',', decimal: '.', affixesStay: true });
 }
 
 var changeDateFromUrl = function(scope, params) {
@@ -96,9 +112,14 @@ var firstLetterUppercase = function(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-var clear_money = function(value) {
-    value = value.replaceAll("R$ ", "");
-    value = value.replaceAll(".", "");
-    value = value.replaceAll(",", ".");
-    return parseFloat(value);
-}
+shekels.filter('format_money', function() {
+    return function(input) {
+        if (input) {
+            return input.formatMoney(2, ',', '.');
+        } else {
+            return 0.00
+        }
+    };
+});
+
+

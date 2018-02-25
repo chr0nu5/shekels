@@ -33,9 +33,9 @@ urlpatterns = [
         ClientViews.UpdatePasswordView.as_view(),
         name='update_password'),
 
-    # client update password
-    url(r'^api/v1/update_funds/$',
-        ClientViews.UpdateFundsView.as_view(),
+    # client update profile
+    url(r'^api/v1/update_profile/$',
+        ClientViews.UpdateProfileiew.as_view(),
         name='update_funds'),
 
     # client new entry

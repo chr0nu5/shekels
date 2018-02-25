@@ -1,7 +1,7 @@
 shekels.controller('JoinController', function($rootScope, $scope, $http, $sce, $location) {
 
     $http.defaults.headers.post["Content-Type"] = "application/json; charset=utf-8";
-    $http.defaults.headers.post["Authorization"] = "Bearer dGRZQ2hSdWpKcXk3Qm5yVUdmM2NxM3NxNjdtZ1NDcTQ6WHJ6M3NDQkNoVDg5dUNiVG9DdHo5bTZCcnFZRWZtVEhuSzhwOEd1TGNteWdrdEN0WmV0M2VwVUhWSlU2QnBaZA==";
+    $http.defaults.headers.post["Authorization"] = "Bearer " + TOKEN;
 
     $scope.join = {};
 

@@ -1,16 +1,22 @@
 <div class="fixed-sidebar-left">
     <ul class="nav navbar-nav side-nav nicescroll-bar">
         <li class="navigation-header">
+            <span>Exit</span>
+            <i class="zmdi zmdi-more"></i>
+        </li>
+        <li>
+            <a ng-href="#" ng-click="logout()">
+                <div class="pull-left"><i class="zmdi zmdi-power mr-20"></i><span class="right-nav-text">Log Out</span></div>
+                <div class="clearfix"></div>
+            </a>
+        </li>
+        <li class="navigation-header">
             <span>User</span>
             <i class="zmdi zmdi-more"></i>
         </li>
         <li>
             <a ng-href="/app/profile/">
                 <div class="pull-left"><i class="zmdi zmdi-account mr-20"></i><span class="right-nav-text">Profile</span></div>
-                <div class="clearfix"></div>
-            </a>
-            <a ng-href="#" ng-click="logout()">
-                <div class="pull-left"><i class="zmdi zmdi-power mr-20"></i><span class="right-nav-text">Log Out</span></div>
                 <div class="clearfix"></div>
             </a>
         </li>
@@ -20,7 +26,7 @@
         </li>
         <li>
             <a ng-href="/app/{{previous_year}}/">
-                <div class="pull-left"><i class="zmdi zmdi-calendar mr-20"></i><span class="right-nav-text">{{previous_year}}</span></div>
+                <div class="pull-left"><i class="zmdi zmdi-arrow-left mr-20"></i><span class="right-nav-text">{{previous_year}}</span></div>
                 <div class="clearfix"></div>
             </a>
             <a class="active" ng-href="/app/">
@@ -28,7 +34,7 @@
                 <div class="clearfix"></div>
             </a>
             <a ng-href="/app/{{next_year}}/">
-                <div class="pull-left"><i class="zmdi zmdi-calendar mr-20"></i><span class="right-nav-text">{{next_year}}</span></div>
+                <div class="pull-left"><i class="zmdi zmdi-arrow-right mr-20"></i><span class="right-nav-text">{{next_year}}</span></div>
                 <div class="clearfix"></div>
             </a>
         </li>

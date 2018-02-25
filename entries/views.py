@@ -1,3 +1,5 @@
+import calendar
+import datetime
 import logging
 
 from .models import Entry
@@ -60,6 +62,8 @@ class ListEntriesView(views.APIView):
             JSON: response
         """
 
+        client = Client.objects.get(username=self.request.user.username)
+
         year = self.kwargs.get("year", None)
         month = self.kwargs.get("month", None)
         day = self.kwargs.get("day", None)
@@ -75,12 +79,9 @@ class ListEntriesView(views.APIView):
         if day:
             entries = entries.filter(date__day=day)
 
-        client = Client.objects.get(username=self.request.user.username)
-        return Response({
-            "year": year,
-            "month": month,
-            "day": day,
-            "entries": [{
+        record_list = []
+        for e in entries:
+            record_list.append({
                 "id": e.pk,
                 "order": e.order,
                 "date": e.date,
@@ -88,7 +89,58 @@ class ListEntriesView(views.APIView):
                 "comment": e.comment,
                 "created_date": e.created_date,
                 "modified_date": e.modified_date,
-            } for e in entries]
+            })
+
+        if year and month:
+            num_days = calendar.monthrange(int(year), int(month))[1]
+            days = [datetime.date(int(year), int(month), day)
+                    for day in range(1, num_days+1)]
+
+            current_list = []
+            balance = 0.00
+
+            for d in days:
+                tmp_list = []
+                for r in record_list:
+                    if r.get("date") == d:
+                        tmp_list.append({
+                            "id": r.get("id"),
+                            "order": r.get("order"),
+                            "date": r.get("date"),
+                            "value": r.get("value"),
+                            "comment": r.get("comment"),
+                            "created_date": r.get("created_date"),
+                            "modified_date": r.get("modified_date")
+                        })
+                        balance = balance + float(r.get("value"))
+                while(len(tmp_list) < 5):
+                    tmp_list.append({
+                        "id": None,
+                        "order": None,
+                        "date": None,
+                        "value": None,
+                        "comment": None,
+                        "created_date": None,
+                        "modified_date": None
+                    })
+
+                current_list.append({
+                    "day": str(d),
+                    "records": tmp_list,
+                    "balance": format(balance, '.2f'),
+                    "credit": format(balance + float(client.credit), '.2f'),
+                    "savings": format(balance + float(
+                        client.credit) + float(client.savings), '.2f'),
+                })
+
+            record_list = current_list
+
+        client = Client.objects.get(username=self.request.user.username)
+        return Response({
+            "year": year,
+            "month": month,
+            "day": day,
+            "entries": record_list
         })
 
 

@@ -8,7 +8,7 @@ def required(value):
         raise serializers.ValidationError('This field is required')
 
 
-class ClientSerializer(serializers.Serializer):
+class LoginSerializer(serializers.Serializer):
 
     """Client Login Serializer
 
@@ -21,7 +21,7 @@ class ClientSerializer(serializers.Serializer):
     password = serializers.CharField(max_length=128)
 
 
-class FundsSerializer(serializers.Serializer):
+class ProfileSerializer(serializers.Serializer):
 
     """Update client credit and savings
 
@@ -30,18 +30,20 @@ class FundsSerializer(serializers.Serializer):
         savings (float): the bank savings
     """
 
+    first_name = serializers.CharField(validators=[required])
+    last_name = serializers.CharField(validators=[required])
     credit = serializers.DecimalField(
         max_digits=9,
         decimal_places=2,
         coerce_to_string=None,
         max_value=1000000,
-        min_value=0.01)
+        min_value=0.00)
     savings = serializers.DecimalField(
         max_digits=9,
         decimal_places=2,
         coerce_to_string=None,
         max_value=1000000,
-        min_value=0.01)
+        min_value=0.00)
 
 
 class RegisterSerializer(serializers.ModelSerializer):

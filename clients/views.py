@@ -2,9 +2,9 @@ import logging
 
 from .models import Client
 from api.decorators import authenticate_application
-from api.validators import ClientSerializer
-from api.validators import FundsSerializer
+from api.validators import LoginSerializer
 from api.validators import PasswordSerializer
+from api.validators import ProfileSerializer
 from api.validators import RegisterSerializer
 from django.contrib.auth import authenticate
 from rest_framework import status
@@ -62,7 +62,7 @@ class LoginView(views.APIView):
             JSON: response
         """
 
-        serializer = ClientSerializer(data=request.data)
+        serializer = LoginSerializer(data=request.data)
 
         if serializer.is_valid():
             client = authenticate(
@@ -146,7 +146,7 @@ class UpdatePasswordView(views.APIView):
             }, status=status.HTTP_400_BAD_REQUEST)
 
 
-class UpdateFundsView(views.APIView):
+class UpdateProfileiew(views.APIView):
 
     @authenticate_application()
     def put(self, request, *args, **kwargs):
@@ -161,12 +161,14 @@ class UpdateFundsView(views.APIView):
             JSON: response
         """
 
-        serializer = FundsSerializer(data=request.data)
+        serializer = ProfileSerializer(data=request.data)
 
         if serializer.is_valid():
             client = Client.objects.get(username=self.request.user.username)
             client.credit = request.data.get("credit")
             client.savings = request.data.get("savings")
+            client.first_name = request.data.get("first_name")
+            client.last_name = request.data.get("last_name")
             client.save()
             return Response({})
         else:
