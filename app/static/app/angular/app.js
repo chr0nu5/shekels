@@ -61,6 +61,11 @@ shekels
         $locationProvider.html5Mode(true);
     })
     .run(function($rootScope, $routeParams, $location) {
+        $rootScope.$on('$routeChangeStart', function() {
+            $('.preloader-it > .la-anim-1').removeClass('la-animate');
+            $(".preloader-it").fadeIn(0);
+            $('.preloader-it > .la-anim-1').addClass('la-animate');
+        })
         $rootScope.$on('$routeChangeSuccess', function() {
             if (!storage.get("token") && $location.path() != '/app/sign-up/' && $location.path() != '/app/forgot-password/') {
                 $rootScope.logout();
@@ -70,7 +75,7 @@ shekels
             $('body').on('focus', 'input', function() {
                 maskMoneyForMoneyFields()
             });
-
+            $(".preloader-it").delay(500).fadeOut("slow");
         })
     })
     .run(['$route', '$rootScope', '$location', function($route, $rootScope, $location) {
