@@ -79,7 +79,7 @@ class PasswordSerializer(serializers.Serializer):
 class EntrySerializer(serializers.Serializer):
 
     order = serializers.IntegerField(max_value=10, min_value=1)
-    date = serializers.DateTimeField()
+    date = serializers.DateField()
     value = serializers.DecimalField(
         max_digits=9,
         decimal_places=2,
@@ -87,7 +87,7 @@ class EntrySerializer(serializers.Serializer):
         max_value=1000000,
         min_value=-1000000)
     comment = serializers.CharField(
-        max_length=255, allow_blank=True, allow_null=True)
+        max_length=255, required=False)
 
 
 class UpdateEntrySerializer(serializers.Serializer):

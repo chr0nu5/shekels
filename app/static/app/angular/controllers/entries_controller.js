@@ -4,17 +4,26 @@ shekels.controller('EntriesController', function($rootScope, $scope, $http, $sce
 
     $scope.entries = [];
 
+    $('body').on('blur', 'input.comment', function() {
+        $(this).parent().find('input.money').trigger("blur");
+    });
+
     $('body').on('blur', 'input.money', function() {
         var day = $(this).parent().data("day");
         var id = $(this).data("id");
+        var order = $(this).data("order");
         var value = $(this).maskMoney('unmasked')[0];
+        var comment = $(this).parent().find(".comment").val();
 
         if (id > 0) {
             $http.defaults.headers.common["Content-Type"] = "application/json; charset=utf-8";
             $http.defaults.headers.common["Authorization"] = "Token " + storage.get("token");
             $http({
                     method: "PUT",
-                    data: JSON.stringify({"value": value}),
+                    data: JSON.stringify({
+                        "value": value,
+                        "comment": comment
+                    }),
                     contentType: "application/json",
                     url: API_URL + "/entry/" + id + "/"
                 })
@@ -25,6 +34,27 @@ shekels.controller('EntriesController', function($rootScope, $scope, $http, $sce
                     $rootScope.showErrors(data.data.errors);
                 });
         } else {
+            if (value != 0) {
+                $http.defaults.headers.common["Content-Type"] = "application/json; charset=utf-8";
+                $http.defaults.headers.common["Authorization"] = "Token " + storage.get("token");
+                $http({
+                        method: "POST",
+                        data: JSON.stringify({
+                            "order": order,
+                            "date": day,
+                            "value": value,
+                            "comment": comment
+                        }),
+                        contentType: "application/json",
+                        url: API_URL + "/new_entry/"
+                    })
+                    .then(function(data) {
+                        $scope.updateEntries();
+                    })
+                    .catch(function(data) {
+                        $rootScope.showErrors(data.data.errors);
+                    });
+            }
 
         }
 

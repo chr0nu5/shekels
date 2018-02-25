@@ -49,7 +49,7 @@
                 </div>
             </div>
             <div class="row">
-                <table class="tablesaw table-bordered table mt-20" data-tablesaw-mode="columntoggle">
+                <table class="tablesaw table mt-20">
                     <thead>
                         <tr>
                             <th scope="col" colspan="5" data-tablesaw-sortable-col data-tablesaw-priority="persist">Entries</th>
@@ -59,12 +59,13 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="e in entries" class="{{e.day|colored_today}}">
+                        <tr ng-repeat="e in entries" class="{{e|colored_today}}">
                             <td>
                                 <span class="label label-{{e.balance < 0 ? 'danger' : 'success'}}">{{e.day|format_day}}</span>
                             </td>
-                            <td ng-repeat="r in e.records" style="width: 25%" data-day="{{r.date}}">
-                                <input data-id="{{r.id}}" data-order="{{r.order}}" value="{{r.value}}" class="money entries text-{{r.naked_value >= 0 ? 'success' : 'danger'}} text-semibold" type="text" />
+                            <td ng-repeat="r in e.records" style="width: 25%" data-day="{{e.day}}">
+                                <input class="comment mb-10" placeholder="Description here" value="{{r.comment}}" />
+                                <input placeholder="$0.00" data-id="{{r.id}}" data-order="{{r.order}}" value="{{r.value}}" class="money entries text-{{r.naked_value >= 0 ? 'success' : 'danger'}} text-semibold" type="text" />
                             </td>
                             <td align="center">
                                 <span class="text-{{e.balance < 0 ? 'danger' : 'success'}} text-semibold">

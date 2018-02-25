@@ -32,6 +32,10 @@ class NewEntryView(views.APIView):
 
         if serializer.is_valid():
             client = Client.objects.get(username=self.request.user.username)
+
+            if request.data.get("value") == 0:
+                return Response({})
+
             entry = Entry(
                 user=client,
                 order=request.data.get("order"),

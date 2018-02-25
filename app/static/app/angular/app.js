@@ -142,10 +142,14 @@ shekels.filter('format_day', function() {
 shekels.filter('colored_today', function() {
     return function(input) {
         if (input) {
+
+            var balance = input.balance;
+            input = input.day;
+
             var today = new Date();
             var date = input.split("-");
             if (today.getFullYear() == date[0] && (today.getMonth()+1) == date[1] && today.getDate() == date[2]) {
-                return "info";
+                return (balance >= 0 ? "success" : "info");
             }
         }
         return ""
