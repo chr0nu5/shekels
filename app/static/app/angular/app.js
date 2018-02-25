@@ -97,12 +97,14 @@ var maskMoneyForMoneyFields = function() {
 }
 
 var changeDateFromUrl = function(scope, params) {
-    scope.year = parseInt(params.year) ? parseInt(params.year) : new Date().getFullYear();
+    scope.year = parseInt(params.year) ? parseInt(params.year) : (new Date()).getFullYear();
     scope.previous_year = eval(scope.year - 1);
+    scope.current_year = (new Date()).getFullYear();
+    scope.current_month = (new Date()).getMonth() + 1;
     scope.next_year = eval(scope.year + 1);
-    scope.month = parseInt(params.month) ? parseInt(params.month) : new Date().getMonth() + 1;
+    scope.month = parseInt(params.month) ? parseInt(params.month) : (new Date()).getMonth() + 1;
 
-    if (!params.month && scope.year != new Date().getFullYear()) {
+    if (!params.month && scope.year != (new Date()).getFullYear()) {
         scope.month = 1;
     }
 
@@ -115,11 +117,37 @@ var firstLetterUppercase = function(string) {
 shekels.filter('format_money', function() {
     return function(input) {
         if (input) {
-            return input.formatMoney(2, ',', '.');
+            return input.formatMoney(2, '.', ',');
         } else {
             return 0.00
         }
     };
 });
 
+shekels.filter('format_day', function() {
+    return function(input) {
+        if (input) {
+            var date = input.split("-");
+            var today = new Date();
+            if (today.getFullYear() == date[0] && (today.getMonth()+1) == date[1] && today.getDate() == date[2]) {
+                return "Today";
+            }
+            return date[2] + "/" + date[1] + "/" + date[0];
+        }
+        return ""
+    };
+});
 
+
+shekels.filter('colored_today', function() {
+    return function(input) {
+        if (input) {
+            var today = new Date();
+            var date = input.split("-");
+            if (today.getFullYear() == date[0] && (today.getMonth()+1) == date[1] && today.getDate() == date[2]) {
+                return "info";
+            }
+        }
+        return ""
+    };
+});

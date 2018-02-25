@@ -69,6 +69,9 @@ class ListEntriesView(views.APIView):
         day = self.kwargs.get("day", None)
 
         entries = Entry.objects.all()
+        balance = 0.00
+
+        all_entries = entries
 
         if year:
             entries = entries.filter(date__year=year)
@@ -80,6 +83,7 @@ class ListEntriesView(views.APIView):
             entries = entries.filter(date__day=day)
 
         record_list = []
+
         for e in entries:
             record_list.append({
                 "id": e.pk,
@@ -91,51 +95,74 @@ class ListEntriesView(views.APIView):
                 "modified_date": e.modified_date,
             })
 
-        if year and month:
-            num_days = calendar.monthrange(int(year), int(month))[1]
-            days = [datetime.date(int(year), int(month), day)
-                    for day in range(1, num_days+1)]
+        if year:
+
+            if month:
+                current_date = datetime.date(int(year), int(month), 1)
+            else:
+                current_date = datetime.date(int(year), 1, 1)
+
+            for e in all_entries:
+                if e.date < current_date:
+                    balance = balance + float(e.value)
 
             current_list = []
-            balance = 0.00
 
-            for d in days:
-                tmp_list = []
-                for r in record_list:
-                    if r.get("date") == d:
+            for m in range(1, 13):
+
+                if month and not m == int(month):
+                    continue
+
+                num_days = calendar.monthrange(int(year), int(m))[1]
+                days = [datetime.date(int(year), int(m), day)
+                        for day in range(1, num_days+1)]
+
+                for d in days:
+                    tmp_list = []
+                    tmp_date = None
+                    count = 1
+                    for r in record_list:
+                        if r.get("date") == d:
+                            tmp_date = r.get("date")
+                            tmp_list.append({
+                                "id": r.get("id"),
+                                "order": r.get("order"),
+                                "date": r.get("date"),
+                                "value": "-${}".format(
+                                    r.get("value")*-1) if r.get(
+                                    "value") < 0 else "${}".format(
+                                    r.get("value")),
+                                "comment": r.get("comment"),
+                                "created_date": r.get("created_date"),
+                                "modified_date": r.get("modified_date")
+                            })
+                            count += 1
+                            balance = balance + float(r.get("value"))
+                    while(len(tmp_list) < 4):
                         tmp_list.append({
-                            "id": r.get("id"),
-                            "order": r.get("order"),
-                            "date": r.get("date"),
-                            "value": r.get("value"),
-                            "comment": r.get("comment"),
-                            "created_date": r.get("created_date"),
-                            "modified_date": r.get("modified_date")
+                            "id": None,
+                            "order": count,
+                            "date": tmp_date,
+                            "value": None,
+                            "comment": None,
+                            "created_date": None,
+                            "modified_date": None
                         })
-                        balance = balance + float(r.get("value"))
-                while(len(tmp_list) < 5):
-                    tmp_list.append({
-                        "id": None,
-                        "order": None,
-                        "date": None,
-                        "value": None,
-                        "comment": None,
-                        "created_date": None,
-                        "modified_date": None
-                    })
+                        count += 1
 
-                current_list.append({
-                    "day": str(d),
-                    "records": tmp_list,
-                    "balance": format(balance, '.2f'),
-                    "credit": format(balance + float(client.credit), '.2f'),
-                    "savings": format(balance + float(
-                        client.credit) + float(client.savings), '.2f'),
-                })
+                    current_list.append({
+                        "day": str(d),
+                        "records": tmp_list,
+                        "balance": format(balance, '.2f'),
+                        "credit": format(
+                            balance + float(client.credit), '.2f'),
+                        "savings": format(
+                            balance + float(client.credit) + float(
+                                client.savings), '.2f'),
+                    })
 
             record_list = current_list
 
-        client = Client.objects.get(username=self.request.user.username)
         return Response({
             "year": year,
             "month": month,

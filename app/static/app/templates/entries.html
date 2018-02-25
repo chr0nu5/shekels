@@ -20,28 +20,71 @@
     <!-- Main Content -->
     <div class="page-wrapper">
         <div class="container-fluid">
-            <table class="tablesaw table-hover table-bordered table mt-40" data-tablesaw-mode="columntoggle">
-                <thead>
-                    <tr>
-                        <th scope="col" colspan="5" data-tablesaw-sortable-col data-tablesaw-priority="persist">Entries</th>
-                        <th scope="col">Balance</th>
-                        <th scope="col">+Credit&nbsp;(${{user.credit|format_money}})</th>
-                        <th scope="col">+Savings&nbsp;(${{user.savings|format_money}})</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="e in entries">
-                        <td ng-repeat="r in e.records" style="width: 20%">
-                            <div class="form-group {{r.value < 0 ? 'has-error' : ''}} mb-0">
-                                <input value="{{r.value}}" class="form-control money" type="text" style="width: 100%; height: 100%; " />
+            <div class="row">
+                <div class="col-lg-6 mt-40">
+                    <div class="panel panel-default card-view">
+                        <div class="panel-heading">
+                            <div class="pull-left">
+                                <h6 class="panel-title txt-dark">Month Projection</h6>
                             </div>
-                        </td>
-                        <td style="width: 1%">${{e.balance}}</td>
-                        <td style="width: 1%">${{e.credit}}</td>
-                        <td style="width: 1%">${{e.savings}}</td>
-                    </tr>
-                </tbody>
-            </table>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="panel-wrapper collapse in">
+                            <div id="month_projection" class="morris-chart"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 mt-40">
+                    <div class="panel panel-default card-view">
+                        <div class="panel-heading">
+                            <div class="pull-left">
+                                <h6 class="panel-title txt-dark">Year Projection</h6>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="panel-wrapper collapse in">
+                            <div id="year_projection" class="morris-chart"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <table class="tablesaw table-bordered table mt-20" data-tablesaw-mode="columntoggle">
+                    <thead>
+                        <tr>
+                            <th scope="col" colspan="5" data-tablesaw-sortable-col data-tablesaw-priority="persist">Entries</th>
+                            <th scope="col">Balance</th>
+                            <th scope="col">+Credit&nbsp;(${{user.credit|format_money}})</th>
+                            <th scope="col">+Savings&nbsp;(${{user.savings|format_money}})</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="e in entries" class="{{e.day|colored_today}}">
+                            <td>
+                                <span class="label label-{{e.balance < 0 ? 'danger' : 'success'}}">{{e.day|format_day}}</span>
+                            </td>
+                            <td ng-repeat="r in e.records" style="width: 25%" data-day="{{r.date}}">
+                                <input data-id="{{r.id}}" data-order="{{r.order}}" value="{{r.value}}" class="money" type="text" style="width: 100%; height: 100%; border: none; background: transparent;" />
+                            </td>
+                            <td align="center">
+                                <span class="text-{{e.balance < 0 ? 'danger' : 'success'}} text-semibold">
+                                    ${{e.balance}}
+                                </span>
+                            </td>
+                            <td align="center">
+                                <span class="text-{{e.credit < 0 ? 'danger' : 'success'}} text-semibold">
+                                    ${{e.credit}}
+                                </span>
+                            </td>
+                            <td align="center">
+                                <span class="text-{{e.savings < 0 ? 'danger' : 'success'}} text-semibold">
+                                    ${{e.savings}}
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
         <!-- Footer -->
         <ng-include src="'/static/app/templates/footer.html'"></ng-include>
