@@ -13,6 +13,9 @@ admin.autodiscover()
 
 urlpatterns = [
 
+    # admin urls
+    url(r'^admin/', include(admin.site.urls)),
+
     # client registration
     url(r'^api/v1/register/$',
         ClientViews.RegisterView.as_view(),
@@ -67,9 +70,6 @@ urlpatterns = [
     url(r'^api/v1/entries/(?P<year>\d+)/(?P<month>\d+)/(?P<day>\d+)/$',
         EntryViews.ListEntriesView.as_view(),
         name='entries_day'),
-
-    # admin urls
-    url(r'^admin/', include(admin.site.urls)),
 
     # client index
     url(r'^', AppViews.index, name='index')
