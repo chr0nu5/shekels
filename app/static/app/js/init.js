@@ -1,27 +1,6 @@
 $(document).ready(function() {
     droopy();
-    // $('.preloader-it > .la-anim-1').addClass('la-animate');
 });
-
-// $(window).on("load", function() {
-//     $(".preloader-it").delay(500).fadeOut("slow");
-//     var progressAnim = $('.progress-anim');
-//     if (progressAnim.length > 0) {
-//         for (var i = 0; i < progressAnim.length; i++) {
-//             var $this = $(progressAnim[i]);
-//             $this.waypoint(function() {
-//                 var progressBar = $(".progress-anim .progress-bar");
-//                 for (var i = 0; i < progressBar.length; i++) {
-//                     $this = $(progressBar[i]);
-//                     $this.css("width", $this.attr("aria-valuenow") + "%");
-//                 }
-//             }, {
-//                 triggerOnce: true,
-//                 offset: 'bottom-in-view'
-//             });
-//         }
-//     }
-// });
 
 var setHeightWidth = function() {
     var height = $(window).height();
