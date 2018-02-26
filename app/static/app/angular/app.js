@@ -49,9 +49,6 @@ shekels
                 templateUrl: '/static/app/templates/entries.html',
                 controller: 'EntriesController'
             });
-        // .when('/app/forgot-password/', {
-        //     templateUrl: '/static/app/templates/forgot-password.html'
-        // });
 
         $routeProvider
             .otherwise({

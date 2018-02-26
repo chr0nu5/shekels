@@ -1,0 +1,1 @@
+docker-compose run --rm api python /app/test_coverage.py report

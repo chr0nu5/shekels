@@ -16,6 +16,20 @@ class BaseAuthenticationTestCase(APITestCase):
             'HTTP_AUTHORIZATION': b'Bearer %s' % base64.b64encode(auth)
         }
 
+    def generate_bad_bearer_header(self, key, secret):
+        auth = '{id}:{secret}'.format(id=key, secret=secret)
+        auth = bytes(auth, 'utf-8')
+        return {
+            'HTTP_AUTHORIZATION': b'Bearer %s' % base64.b64encode(auth)
+        }
+
+    def generate_bad_token_header(self, key, secret):
+        auth = '{id}:{secret}'.format(id=key, secret=secret)
+        auth = bytes(auth, 'utf-8')
+        return {
+            'HTTP_AUTHORIZATION': b'Token %s' % base64.b64encode(auth)
+        }
+
     def generate_bearer_header(self):
         a = OAuthApplication()
         a.name = 'shekels'

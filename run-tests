@@ -1,0 +1,15 @@
+#!/bin/bash
+stat /proc/1/cgroup >/dev/null 2>&1
+if [[ $? == 0 ]]; then
+    grep docker /proc/1/cgroup -qa >/dev/null 2>&1
+    RUNNING_IN_DOCKER=$?
+else
+    RUNNING_IN_DOCKER=1
+fi
+
+if [[ $RUNNING_IN_DOCKER == 0 ]]; then
+    python /app/test_coverage.py run --source='.' /app/manage.py test $@
+    coverage html -d coverage-results
+else
+    docker-compose run --rm api /app/run-tests $@
+fi

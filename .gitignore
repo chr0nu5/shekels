@@ -115,3 +115,5 @@ __pycache__/*
 xray_config_error.log
 api/media/*
 api/static/*
+
+coverage-results/

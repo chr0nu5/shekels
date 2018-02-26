@@ -1,1 +1,0 @@
-docker-compose run --rm api python /app/test_coverage.py run --source='.' /app/manage.py test && docker-compose run --rm api python /app/test_coverage.py report
