@@ -72,7 +72,7 @@ class ListEntriesView(views.APIView):
         month = self.kwargs.get("month", None)
         day = self.kwargs.get("day", None)
 
-        entries = Entry.objects.all()
+        entries = Entry.objects.filter(client=client)
         balance = 0.00
 
         all_entries = entries
