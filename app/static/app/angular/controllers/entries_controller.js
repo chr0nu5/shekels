@@ -94,7 +94,7 @@ shekels.controller('EntriesController', function($rootScope, $scope, $http, $sce
                     data.push({
                         period: "" + parseInt(e.day.split("-")[2]),
                         income: income,
-                        expenses: expenses,
+                        expenses: expenses * -1,
                         balance: e.balance
                     });
 
@@ -176,7 +176,7 @@ shekels.controller('EntriesController', function($rootScope, $scope, $http, $sce
                     data.push({
                         period: "" + parseInt(date.split("-")[1]),
                         income: income,
-                        expenses: expenses,
+                        expenses: expenses * -1,
                         balance: parseFloat(balance)
                     });
 
