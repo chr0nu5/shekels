@@ -1,6 +1,10 @@
 var API_URL = "/api/v1";
 var storage = $.jStorage;
-var TOKEN = "eVptU3RSYXVDTlZpSm1IbUFvSllHZ3pCY3poWm95Y2Q6RFlVNUJxaU13R0VYcm02ZjNwZzVBcHlOQVNQalhjNkRkWTJ5WktNWmhpR1NuejhSY3NuRVZYMk5DSE5DWXdHdw==";
+
+var key = $("body").data("key");
+var sec = $("body").data("sec");
+
+var TOKEN = btoa(key + ":" + sec);
 
 (function(i, s, o, g, r, a, m) {
     i['GoogleAnalyticsObject'] = r;

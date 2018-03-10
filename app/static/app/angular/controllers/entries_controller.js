@@ -1,23 +1,32 @@
 shekels.controller('EntriesController', function($rootScope, $scope, $http, $sce, $compile, $location) {
 
+    $http.defaults.headers.common["Content-Type"] = "application/json; charset=utf-8";
+    $http.defaults.headers.common["Authorization"] = "Token " + storage.get("token");
+
     $rootScope.getProfile();
 
     $scope.entries = [];
 
-    $('body').on('blur', 'input.comment', function() {
-        $(this).parent().find('input.money').trigger("blur");
-    });
+    $scope.saveEntry = function($event, type) {
 
-    $('body').on('blur', 'input.money', function() {
-        var day = $(this).parent().data("day");
-        var id = $(this).data("id");
-        var order = $(this).data("order");
-        var value = $(this).maskMoney('unmasked')[0];
-        var comment = $(this).parent().find(".comment").val();
+        var money_element = $($event.target);
+
+        if (type == 0) {
+            money_element = money_element.parent().find('input.money');
+        }
+
+        var day = money_element.parent().data("day");
+        var id = money_element.data("id");
+        var order = money_element.data("order");
+        var value = money_element.maskMoney('unmasked')[0];
+        var comment = money_element.parent().find(".comment").val();
 
         if (id > 0) {
-            $http.defaults.headers.common["Content-Type"] = "application/json; charset=utf-8";
-            $http.defaults.headers.common["Authorization"] = "Token " + storage.get("token");
+
+            if (comment.length == 0) {
+                comment = undefined;
+            }
+
             $http({
                     method: "PUT",
                     data: JSON.stringify({
@@ -35,8 +44,11 @@ shekels.controller('EntriesController', function($rootScope, $scope, $http, $sce
                 });
         } else {
             if (value != 0) {
-                $http.defaults.headers.common["Content-Type"] = "application/json; charset=utf-8";
-                $http.defaults.headers.common["Authorization"] = "Token " + storage.get("token");
+
+                if (comment.length == 0) {
+                    comment = undefined;
+                }
+
                 $http({
                         method: "POST",
                         data: JSON.stringify({
@@ -57,12 +69,7 @@ shekels.controller('EntriesController', function($rootScope, $scope, $http, $sce
             }
 
         }
-
-        console.log(day, id, value);
-    });
-
-    $http.defaults.headers.common["Content-Type"] = "application/json; charset=utf-8";
-    $http.defaults.headers.common["Authorization"] = "Token " + storage.get("token");
+    }
 
     $scope.updateEntries = function() {
         // get the current entries (month) and project on the chart
