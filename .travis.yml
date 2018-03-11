@@ -6,13 +6,11 @@ python:
 
 services: postgresql
 
+addons:
+  postgresql: "10.3"
+
 env:
   - DJANGO=1.11.2
-  - DB_HOST=localhost
-  - DB_USER=postgres
-  - DB_NAME=api
-  - DB_PORT=5432
-  - DB_PASSWORD=
 
 install:
   - sudo apt-get install -qq -y build-essential libpq-dev libffi-dev --no-install-recommends
