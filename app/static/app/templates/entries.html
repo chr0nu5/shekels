@@ -23,7 +23,7 @@
             <div class="row">
                 <div class="col-lg-12 mt-40 text-center text-semibold">"{{ quote }}"</div>
             </div>
-            <div class="row">
+            <div class="row visible-lg">
                 <div class="col-lg-6 mt-20">
                     <div class="panel panel-default card-view">
                         <div class="panel-heading">
@@ -55,16 +55,16 @@
                 <table class="tablesaw table mt-20" data-tablesaw-mode="stack">
                     <thead>
                         <tr>
-                            <th scope="col" colspan="5" data-tablesaw-priority="persist">Entries</th>
-                            <th scope="col" data-tablesaw-priority="3">Balance</th>
-                            <th scope="col" data-tablesaw-priority="2">+Credit&nbsp;(${{user.credit|format_money}})</th>
-                            <th scope="col" data-tablesaw-priority="1">+Savings&nbsp;(${{user.savings|format_money}})</th>
+                            <th colspan="5" data-tablesaw-priority="persist">Entries</th>
+                            <th data-tablesaw-priority="3">Balance</th>
+                            <th data-tablesaw-priority="2">+Credit&nbsp;(${{user.credit|format_money}})</th>
+                            <th data-tablesaw-priority="1">+Savings&nbsp;(${{user.savings|format_money}})</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr ng-repeat="e in entries" class="{{e|colored_today}}">
                             <td>
-                                <span class="label label-{{e.balance < 0 ? 'danger' : 'success'}} block full-width">{{e.day|format_day}}</span>
+                                <span class="label label-{{e.balance < 0 ? 'danger' : 'success'}} block full-width font-15">{{e.day|format_day}}</span>
                             </td>
                             <td ng-repeat="r in e.records" data-day="{{e.day}}">
                                 <input class="comment entry mb-10" placeholder="Description here" value="{{r.comment}}" ng-blur="saveEntry($event, 0)" />
@@ -72,17 +72,17 @@
                             </td>
                             <td class="{{e.balance < 0 ? 'info' : 'success'}}">
                                 <span class="text-{{e.balance < 0 ? 'danger' : 'success'}} text-semibold text-center full-width block">
-                                    ${{e.balance}}
+                                    <b class="mobile-only-view">Balance</b> ${{e.balance}}
                                 </span>
                             </td>
                             <td class="{{e.credit < 0 ? 'info' : 'success'}}">
                                 <span class="text-{{e.credit < 0 ? 'danger' : 'success'}} text-semibold text-center full-width block">
-                                    ${{e.credit}}
+                                    <b class="mobile-only-view">Credit</b> ${{e.credit}}
                                 </span>
                             </td>
                             <td class="{{e.savings < 0 ? 'info' : 'success'}}">
                                 <span class="text-{{e.savings < 0 ? 'danger' : 'success'}} text-semibold text-center full-width block">
-                                    ${{e.savings}}
+                                    <b class="mobile-only-view">Savings</b> ${{e.savings}}
                                 </span>
                             </td>
                         </tr>
