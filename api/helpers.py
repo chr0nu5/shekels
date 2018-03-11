@@ -19,6 +19,5 @@ class TimeZoneHelper:
             date = pytz.timezone('UTC').localize(date, is_dst=None)
             return date.astimezone(self.timezone)
         except Exception as e:
-            logging.error(e)
             pass
         return date

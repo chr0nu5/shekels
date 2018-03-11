@@ -22,7 +22,7 @@ class Pep8TestCase(TestCase):
     def test_pep8(self):
         """Should not show any erros"""
 
-        for file in glob.glob('/app/' + '/**/*.py', recursive=True):
+        for file in glob.glob('./' + '/**/*.py', recursive=True):
             if '/app/env/' not in file and '/migrations/' not in file:
                 print(file)
                 fchecker = pep8.Checker(file, show_source=True)
