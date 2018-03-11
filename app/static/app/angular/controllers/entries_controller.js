@@ -42,11 +42,6 @@ shekels.controller('EntriesController', function($rootScope, $scope, $http, $sce
             if (value == 0) {
                 $http({
                     method: "DELETE",
-                    // data: JSON.stringify({
-                    //     "value": value,
-                    //     "comment": comment
-                    // }),
-                    // contentType: "application/json",
                     url: API_URL + "/entry/" + id + "/delete/"
                 })
                 .then(function(data) {
