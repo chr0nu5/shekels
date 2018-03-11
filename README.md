@@ -1,7 +1,8 @@
-# shekels
+# Shekels ![CI](https://api.travis-ci.org/chr0nu5/shekels.svg?branch=master)
+
 A very simple and fast finance manager made in Python.
 
-# running
+# Running
 
 Open the shell:
 
