@@ -65,7 +65,7 @@
                             </td>
                             <td ng-repeat="r in e.records" style="width: 25%" data-day="{{e.day}}">
                                 <input class="comment entry mb-10" placeholder="Description here" value="{{r.comment}}" ng-blur="saveEntry($event, 0)" />
-                                <input placeholder="$0.00" data-id="{{r.id}}" data-order="{{r.order}}" value="{{r.value}}" class="money entry entries text-{{r.naked_value >= 0 ? 'success' : 'danger'}} text-semibold" type="text" ng-blur="saveEntry($event, 1)" />
+                                <input placeholder="$0.00" data-id="{{r.id}}" data-order="{{r.order}}" value="{{r.value}}" class="money entry entries text-{{r.naked_value >= 0 ? 'success' : 'danger'}} text-semibold" type="text" ng-blur="saveEntry($event, 1)" ng-keyup="changeColor($event)" />
                             </td>
                             <td align="center">
                                 <span class="text-{{e.balance < 0 ? 'danger' : 'success'}} text-semibold">

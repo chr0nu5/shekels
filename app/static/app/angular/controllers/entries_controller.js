@@ -7,6 +7,18 @@ shekels.controller('EntriesController', function($rootScope, $scope, $http, $sce
 
     $scope.entries = [];
 
+    $scope.changeColor = function($event) {
+        var money_element = $($event.target);
+        var value = money_element.maskMoney('unmasked')[0];
+        if (value >= 0) {
+            money_element.removeClass("text-danger");
+            money_element.addClass("text-success");
+        } else {
+            money_element.addClass("text-danger");
+            money_element.removeClass("text-success");
+        }
+    }
+
     $scope.saveEntry = function($event, type) {
 
         var money_element = $($event.target);
@@ -27,7 +39,24 @@ shekels.controller('EntriesController', function($rootScope, $scope, $http, $sce
                 comment = undefined;
             }
 
-            $http({
+            if (value == 0) {
+                $http({
+                    method: "DELETE",
+                    // data: JSON.stringify({
+                    //     "value": value,
+                    //     "comment": comment
+                    // }),
+                    // contentType: "application/json",
+                    url: API_URL + "/entry/" + id + "/delete/"
+                })
+                .then(function(data) {
+                    $scope.updateEntries();
+                })
+                .catch(function(data) {
+                    $rootScope.showErrors(data.data.errors);
+                });
+            } else {
+                $http({
                     method: "PUT",
                     data: JSON.stringify({
                         "value": value,
@@ -42,6 +71,7 @@ shekels.controller('EntriesController', function($rootScope, $scope, $http, $sce
                 .catch(function(data) {
                     $rootScope.showErrors(data.data.errors);
                 });
+            }
         } else {
             if (value != 0) {
 
@@ -66,6 +96,8 @@ shekels.controller('EntriesController', function($rootScope, $scope, $http, $sce
                     .catch(function(data) {
                         $rootScope.showErrors(data.data.errors);
                     });
+            } else {
+                money_element.maskMoney("mask", 0);
             }
 
         }

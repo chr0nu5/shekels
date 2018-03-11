@@ -149,6 +149,7 @@ class ListEntriesView(views.APIView):
                             "order": count,
                             "date": tmp_date,
                             "value": None,
+                            "naked_value": 0,
                             "comment": None,
                             "created_date": None,
                             "modified_date": None
@@ -167,6 +168,9 @@ class ListEntriesView(views.APIView):
                     })
 
             record_list = current_list
+
+        # TODO
+        # filter by year
 
         return Response({
             "year": year,
