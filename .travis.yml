@@ -6,9 +6,6 @@ python:
 
 services: postgresql
 
-addons:
-  postgresql: "10.3"
-
 env:
   - DJANGO=1.11.2
 
