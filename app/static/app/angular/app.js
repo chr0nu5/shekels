@@ -73,6 +73,7 @@ shekels
             }
             changeDateFromUrl($rootScope, $routeParams);
             $rootScope.changeQuote();
+            $rootScope.updateSeconds();
 
             $('body').on('focus', 'input', function() {
                 maskMoneyForMoneyFields()

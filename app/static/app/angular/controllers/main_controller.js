@@ -20,9 +20,20 @@ shekels.controller("MainController", function($rootScope, $scope, $http, $sce, $
         "We aim above the mark to hit the mark.",
         "Never give up, for that is just the place and time that the tide will turn."
     ]
+    $rootScope.seconds = 0;
 
     $rootScope.changeQuote = function() {
-        $rootScope.quote = $scope.QUOTES[Math.floor(Math.random() * $scope.QUOTES.length)];
+        $rootScope.quote = $rootScope.QUOTES[Math.floor(Math.random() * $rootScope.QUOTES.length)];
+    }
+
+    $rootScope.updateSeconds = function() {
+        var t1 = new Date();
+        var t2 = new Date(2011, 7, 8, 9, 52);
+        var dif = t1.getTime() - t2.getTime();
+        var seconds = Math.floor(dif / 1000);
+        var year = Math.floor(seconds / 31536000);
+        var month = Math.floor((seconds % 31536000) / (31536000/12));
+        $rootScope.seconds = year + " year(s), " + month + " month(s) and counting.";
     }
 
     $rootScope.showErrors = function(errors) {
