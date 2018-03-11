@@ -21,7 +21,7 @@
     <div class="page-wrapper">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-lg-12 mt-40 text-right">"{{ quote }}"</div>
+                <div class="col-lg-12 mt-40 text-center text-semibold">"{{ quote }}"</div>
             </div>
             <div class="row">
                 <div class="col-lg-6 mt-20">
@@ -70,17 +70,17 @@
                                 <input class="comment entry mb-10" placeholder="Description here" value="{{r.comment}}" ng-blur="saveEntry($event, 0)" />
                                 <input placeholder="$0.00" data-id="{{r.id}}" data-order="{{r.order}}" value="{{r.value}}" class="money entry entries text-{{r.naked_value >= 0 ? 'success' : 'danger'}} text-semibold" type="text" ng-blur="saveEntry($event, 1)" ng-keyup="changeColor($event)" />
                             </td>
-                            <td>
+                            <td class="{{e.balance < 0 ? 'info' : 'success'}}">
                                 <span class="text-{{e.balance < 0 ? 'danger' : 'success'}} text-semibold text-center full-width block">
                                     ${{e.balance}}
                                 </span>
                             </td>
-                            <td>
+                            <td class="{{e.credit < 0 ? 'info' : 'success'}}">
                                 <span class="text-{{e.credit < 0 ? 'danger' : 'success'}} text-semibold text-center full-width block">
                                     ${{e.credit}}
                                 </span>
                             </td>
-                            <td>
+                            <td class="{{e.savings < 0 ? 'info' : 'success'}}">
                                 <span class="text-{{e.savings < 0 ? 'danger' : 'success'}} text-semibold text-center full-width block">
                                     ${{e.savings}}
                                 </span>
