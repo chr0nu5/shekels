@@ -8,15 +8,24 @@ services: postgresql
 
 env:
   - DJANGO=1.11.2
+  - DB_HOST=localhost
+  - DB_USER=postgres
+  - DB_NAME=api
+  - DB_PORT=5432
+  - DB_PASSWORD=
 
 install:
-  - apt-get install -qq -y build-essential libpq-dev libffi-dev --no-install-recommends
+  - sudo apt-get install -qq -y build-essential libpq-dev libffi-dev --no-install-recommends
   - pip install -r requirements.txt
 
 before_install:
   - export DJANGO_SETTINGS_MODULE=api.settings
   - export SECRET_KEY='This is secret'
   - export DEBUG=True
+
+before_script:
+  - psql -c 'create database api;' -U postgres
+  - psql -c 'create database test;' -U postgres
 
 script:
   - python manage.py test
