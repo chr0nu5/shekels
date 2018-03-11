@@ -1,0 +1,20 @@
+language: python
+sudo: false
+
+python:
+  - "3.6.2"
+
+env:
+  - DJANGO=1.11.2
+
+install:
+  - apt-get install -qq -y build-essential libpq-dev libffi-dev --no-install-recommends
+  - pip install -r requirements.txt
+
+before_install:
+  - export DJANGO_SETTINGS_MODULE=api.settings
+  - export SECRET_KEY='This is secret'
+  - export DEBUG=True
+
+after_success:
+  - python test_coverage.py report
