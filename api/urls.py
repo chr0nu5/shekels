@@ -51,6 +51,11 @@ urlpatterns = [
         EntryViews.UpdateEntryView.as_view(),
         name='update_entry'),
 
+    # delete a entry by id
+    url(r'^api/v1/entry/(?P<id>\d+)/delete/$',
+        EntryViews.DeleteEntryView.as_view(),
+        name='delete_entry'),
+
     # client entries (all)
     url(r'^api/v1/entries/$',
         EntryViews.ListEntriesView.as_view(),

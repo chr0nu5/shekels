@@ -218,3 +218,45 @@ class UpdateEntryView(views.APIView):
                 "error_code": "INVALID_UPDATE",
                 "errors": serializer.errors
             }, status=status.HTTP_400_BAD_REQUEST)
+
+
+class DeleteEntryView(views.APIView):
+
+    @authenticate_application()
+    def delete(self, request, *args, **kwargs):
+        """Delete a client entry by id
+
+        Args:
+            request (TYPE): Description
+            *args: Description
+            **kwargs: Description
+
+        Returns:
+            JSON: response
+        """
+
+        entry_id = self.kwargs.get("id", None)
+        if entry_id:
+
+            client = Client.objects.get(
+                username=self.request.user.username)
+            entry = Entry.objects.filter(pk=entry_id, user=client).first()
+            if entry:
+                entry.delete()
+            else:
+                return Response({
+                    "error_code": "INVALID_DELETE",
+                    "errors": {
+                        "entry": "This entry does not belongs to this user"
+                    }
+                }, status=status.HTTP_400_BAD_REQUEST)
+
+            return Response({})
+
+        else:
+            return Response({
+                "error_code": "INVALID_DELETE",
+                "errors": {
+                    "entry": "This entry is invalid"
+                }
+            }, status=status.HTTP_400_BAD_REQUEST)
