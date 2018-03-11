@@ -79,6 +79,11 @@ shekels
                 maskMoneyForMoneyFields()
             });
             $(".preloader-it").delay(500).fadeOut("slow");
+
+            setTimeout(function() {
+                $( document ).trigger( "enhance.tablesaw" );
+            }, 100);
+
         })
     })
     .run(['$route', '$rootScope', '$location', function($route, $rootScope, $location) {

@@ -52,36 +52,36 @@
                 </div>
             </div>
             <div class="row">
-                <table class="tablesaw table mt-20">
+                <table class="tablesaw table mt-20" data-tablesaw-mode="stack">
                     <thead>
                         <tr>
-                            <th scope="col" colspan="5" data-tablesaw-sortable-col data-tablesaw-priority="persist">Entries</th>
-                            <th scope="col">Balance</th>
-                            <th scope="col">+Credit&nbsp;(${{user.credit|format_money}})</th>
-                            <th scope="col">+Savings&nbsp;(${{user.savings|format_money}})</th>
+                            <th scope="col" colspan="5" data-tablesaw-priority="persist">Entries</th>
+                            <th scope="col" data-tablesaw-priority="3">Balance</th>
+                            <th scope="col" data-tablesaw-priority="2">+Credit&nbsp;(${{user.credit|format_money}})</th>
+                            <th scope="col" data-tablesaw-priority="1">+Savings&nbsp;(${{user.savings|format_money}})</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr ng-repeat="e in entries" class="{{e|colored_today}}">
                             <td>
-                                <span class="label label-{{e.balance < 0 ? 'danger' : 'success'}}">{{e.day|format_day}}</span>
+                                <span class="label label-{{e.balance < 0 ? 'danger' : 'success'}} block full-width">{{e.day|format_day}}</span>
                             </td>
-                            <td ng-repeat="r in e.records" style="width: 25%" data-day="{{e.day}}">
+                            <td ng-repeat="r in e.records" data-day="{{e.day}}">
                                 <input class="comment entry mb-10" placeholder="Description here" value="{{r.comment}}" ng-blur="saveEntry($event, 0)" />
                                 <input placeholder="$0.00" data-id="{{r.id}}" data-order="{{r.order}}" value="{{r.value}}" class="money entry entries text-{{r.naked_value >= 0 ? 'success' : 'danger'}} text-semibold" type="text" ng-blur="saveEntry($event, 1)" ng-keyup="changeColor($event)" />
                             </td>
-                            <td align="center">
-                                <span class="text-{{e.balance < 0 ? 'danger' : 'success'}} text-semibold">
+                            <td>
+                                <span class="text-{{e.balance < 0 ? 'danger' : 'success'}} text-semibold text-center full-width block">
                                     ${{e.balance}}
                                 </span>
                             </td>
-                            <td align="center">
-                                <span class="text-{{e.credit < 0 ? 'danger' : 'success'}} text-semibold">
+                            <td>
+                                <span class="text-{{e.credit < 0 ? 'danger' : 'success'}} text-semibold text-center full-width block">
                                     ${{e.credit}}
                                 </span>
                             </td>
-                            <td align="center">
-                                <span class="text-{{e.savings < 0 ? 'danger' : 'success'}} text-semibold">
+                            <td>
+                                <span class="text-{{e.savings < 0 ? 'danger' : 'success'}} text-semibold text-center full-width block">
                                     ${{e.savings}}
                                 </span>
                             </td>
