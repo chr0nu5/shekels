@@ -51,6 +51,11 @@ shekels.controller('EntriesController', function($rootScope, $scope, $http, $sce
                     $rootScope.showErrors(data.data.errors);
                 });
             } else {
+
+                // $('.preloader-it > .la-anim-1').removeClass('la-animate');
+                $(".preloader-it").fadeIn(0);
+                // $('.preloader-it > .la-anim-1').addClass('la-animate');
+
                 $http({
                     method: "PUT",
                     data: JSON.stringify({
@@ -62,9 +67,11 @@ shekels.controller('EntriesController', function($rootScope, $scope, $http, $sce
                 })
                 .then(function(data) {
                     $scope.updateEntries();
+                    $(".preloader-it").delay(500).fadeOut("slow");
                 })
                 .catch(function(data) {
                     $rootScope.showErrors(data.data.errors);
+                    $(".preloader-it").delay(500).fadeOut("slow");
                 });
             }
         } else {
@@ -73,6 +80,10 @@ shekels.controller('EntriesController', function($rootScope, $scope, $http, $sce
                 if (comment.length == 0) {
                     comment = undefined;
                 }
+
+                // $('.preloader-it > .la-anim-1').removeClass('la-animate');
+                $(".preloader-it").fadeIn(0);
+                // $('.preloader-it > .la-anim-1').addClass('la-animate');
 
                 $http({
                         method: "POST",
@@ -87,9 +98,11 @@ shekels.controller('EntriesController', function($rootScope, $scope, $http, $sce
                     })
                     .then(function(data) {
                         $scope.updateEntries();
+                        $(".preloader-it").delay(500).fadeOut("slow");
                     })
                     .catch(function(data) {
                         $rootScope.showErrors(data.data.errors);
+                        $(".preloader-it").delay(500).fadeOut("slow");
                     });
             } else {
                 money_element.maskMoney("mask", 0);
@@ -99,6 +112,7 @@ shekels.controller('EntriesController', function($rootScope, $scope, $http, $sce
     }
 
     $scope.updateEntries = function() {
+
         // get the current entries (month) and project on the chart
         $http({
                 method: "GET",

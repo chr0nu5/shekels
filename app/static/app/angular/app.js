@@ -43,11 +43,13 @@ shekels
                 templateUrl: '/static/app/templates/profile.html',
                 controller: 'ProfileController'
             })
+
             // entries views
             .when('/app/:year/', {
                 templateUrl: '/static/app/templates/entries.html',
                 controller: 'EntriesController'
             })
+
             // entries views
             .when('/app/:year/:month/', {
                 templateUrl: '/static/app/templates/entries.html',
@@ -63,9 +65,9 @@ shekels
     })
     .run(function($rootScope, $routeParams, $location) {
         $rootScope.$on('$routeChangeStart', function() {
-            $('.preloader-it > .la-anim-1').removeClass('la-animate');
+            // $('.preloader-it > .la-anim-1').removeClass('la-animate');
             $(".preloader-it").fadeIn(0);
-            $('.preloader-it > .la-anim-1').addClass('la-animate');
+            // $('.preloader-it > .la-anim-1').addClass('la-animate');
         })
         $rootScope.$on('$routeChangeSuccess', function() {
             if (!storage.get("token") && $location.path() != '/app/sign-up/' && $location.path() != '/app/forgot-password/') {
