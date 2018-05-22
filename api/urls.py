@@ -46,20 +46,40 @@ urlpatterns = [
         EntryViews.NewEntryView.as_view(),
         name='new_entry'),
 
+    # client new recurrent entry
+    url(r'^api/v1/new_recurrent/$',
+        EntryViews.NewRecurrentEntryView.as_view(),
+        name='new_recurrent'),
+
     # update a entry by id
     url(r'^api/v1/entry/(?P<id>\d+)/$',
         EntryViews.UpdateEntryView.as_view(),
         name='update_entry'),
+
+    # update a recurrent entry by id
+    url(r'^api/v1/recurrent_entry/(?P<id>\d+)/$',
+        EntryViews.UpdateRecurrentEntryView.as_view(),
+        name='update_recurrent_entry'),
 
     # delete a entry by id
     url(r'^api/v1/entry/(?P<id>\d+)/delete/$',
         EntryViews.DeleteEntryView.as_view(),
         name='delete_entry'),
 
+    # delete a recurrent entry by id
+    url(r'^api/v1/recurrent_entry/(?P<id>\d+)/delete/$',
+        EntryViews.DeleteRecurrentEntryView.as_view(),
+        name='delete_recurrent_entry'),
+
     # client entries (all)
     url(r'^api/v1/entries/$',
         EntryViews.ListEntriesView.as_view(),
         name='all_entries'),
+
+    # client entries (all)
+    url(r'^api/v1/recurrent_entries/$',
+        EntryViews.ListRecurrentEntriesView.as_view(),
+        name='all_recurrent_entries'),
 
     # client entries by year
     url(r'^api/v1/entries/(?P<year>\d+)/$',

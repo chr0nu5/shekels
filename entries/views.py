@@ -3,14 +3,54 @@ import datetime
 import logging
 
 from .models import Entry
+from .models import Recurrent
 from api.decorators import authenticate_application
 from api.validators import EntrySerializer
+from api.validators import RecurrentSerializer
 from api.validators import UpdateEntrySerializer
 from clients.models import Client
 from django.contrib.auth import authenticate
 from rest_framework import status
 from rest_framework import views
 from rest_framework.response import Response
+
+
+class NewRecurrentEntryView(views.APIView):
+
+    @authenticate_application()
+    def post(self, request, *args, **kwargs):
+        """Create a new entry for an user
+
+        Args:
+            request (TYPE): Description
+            *args: Description
+            **kwargs: Description
+
+        Returns:
+            JSON: response
+        """
+
+        serializer = RecurrentSerializer(data=request.data)
+
+        if serializer.is_valid():
+            client = Client.objects.get(username=self.request.user.username)
+
+            if request.data.get("value") == 0:
+                return Response({})
+
+            recurrent_entry = Recurrent(
+                user=client,
+                times=request.data.get("times"),
+                value=request.data.get("value"),
+                description=request.data.get("description"))
+            recurrent_entry.save()
+
+            return Response({})
+        else:
+            return Response({
+                "error_code": "INVALID_ENTRY",
+                "errors": serializer.errors
+            }, status=status.HTTP_400_BAD_REQUEST)
 
 
 class NewEntryView(views.APIView):
@@ -49,6 +89,40 @@ class NewEntryView(views.APIView):
                 "error_code": "INVALID_ENTRY",
                 "errors": serializer.errors
             }, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ListRecurrentEntriesView(views.APIView):
+
+    @authenticate_application()
+    def get(self, request, *args, **kwargs):
+        """Get a client entries by year, month and day
+
+        Args:
+            request (TYPE): Description
+            *args: Description
+            **kwargs: Description
+
+        Returns:
+            JSON: response
+        """
+
+        client = Client.objects.get(username=self.request.user.username)
+        entries = Recurrent.objects.filter(user=client)
+
+        record_list = []
+        for e in entries:
+            record_list.append({
+                "id": e.pk,
+                "times": e.times,
+                "value": e.value,
+                "description": e.description,
+                "created_date": e.created_date,
+                "modified_date": e.modified_date,
+            })
+
+        return Response({
+            "entries": record_list
+        })
 
 
 class ListEntriesView(views.APIView):
@@ -212,7 +286,7 @@ class UpdateEntryView(views.APIView):
                     return Response({
                         "error_code": "INVALID_UPDATE",
                         "errors": {
-                            "entry": "This entry does not belongs to this user"
+                            "entry": "This entry does not belong to this user"
                         }
                     }, status=status.HTTP_400_BAD_REQUEST)
 
@@ -221,6 +295,95 @@ class UpdateEntryView(views.APIView):
             return Response({
                 "error_code": "INVALID_UPDATE",
                 "errors": serializer.errors
+            }, status=status.HTTP_400_BAD_REQUEST)
+
+
+class UpdateRecurrentEntryView(views.APIView):
+
+    @authenticate_application()
+    def put(self, request, *args, **kwargs):
+        """Get a client entries by year, month and day
+
+        Args:
+            request (TYPE): Description
+            *args: Description
+            **kwargs: Description
+
+        Returns:
+            JSON: response
+        """
+
+        serializer = RecurrentSerializer(data=request.data)
+
+        if serializer.is_valid():
+            entry_id = self.kwargs.get("id", None)
+            if entry_id:
+
+                client = Client.objects.get(
+                    username=self.request.user.username)
+                entry = Recurrent.objects.filter(
+                    pk=entry_id, user=client).first()
+                if entry:
+                    entry.value = request.data.get("value")
+                    entry.times = request.data.get("times")
+                    entry.comment = request.data.get("comment")
+                    entry.save()
+                else:
+                    return Response({
+                        "error_code": "INVALID_UPDATE",
+                        "errors": {
+                            "entry":
+                            "This recurrent entry does not belong to this user"
+                        }
+                    }, status=status.HTTP_400_BAD_REQUEST)
+
+            return Response({})
+        else:
+            return Response({
+                "error_code": "INVALID_UPDATE",
+                "errors": serializer.errors
+            }, status=status.HTTP_400_BAD_REQUEST)
+
+
+class DeleteRecurrentEntryView(views.APIView):
+
+    @authenticate_application()
+    def delete(self, request, *args, **kwargs):
+        """Delete a client entry by id
+
+        Args:
+            request (TYPE): Description
+            *args: Description
+            **kwargs: Description
+
+        Returns:
+            JSON: response
+        """
+
+        entry_id = self.kwargs.get("id", None)
+        if entry_id:
+
+            client = Client.objects.get(
+                username=self.request.user.username)
+            entry = Recurrent.objects.filter(pk=entry_id, user=client).first()
+            if entry:
+                entry.delete()
+            else:
+                return Response({
+                    "error_code": "INVALID_DELETE",
+                    "errors": {
+                        "entry": "This entry does not belongs to this user"
+                    }
+                }, status=status.HTTP_400_BAD_REQUEST)
+
+            return Response({})
+
+        else:
+            return Response({
+                "error_code": "INVALID_DELETE",
+                "errors": {
+                    "entry": "This entry is invalid"
+                }
             }, status=status.HTTP_400_BAD_REQUEST)
 
 

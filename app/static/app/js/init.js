@@ -38,6 +38,9 @@ var setHeightWidth = function() {
             );
         }
     }
+
+    $('.selectpicker').selectpicker();
+
 };
 
 var droopy = function() {

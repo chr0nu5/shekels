@@ -76,6 +76,19 @@ class PasswordSerializer(serializers.Serializer):
     password = serializers.CharField(max_length=128)
 
 
+class RecurrentSerializer(serializers.Serializer):
+
+    times = serializers.IntegerField(max_value=12, min_value=0)
+    value = serializers.DecimalField(
+        max_digits=9,
+        decimal_places=2,
+        coerce_to_string=None,
+        max_value=1000000,
+        min_value=-1000000)
+    description = serializers.CharField(
+        max_length=255, required=False)
+
+
 class EntrySerializer(serializers.Serializer):
 
     order = serializers.IntegerField(max_value=10, min_value=1)
