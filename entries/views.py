@@ -1,4 +1,5 @@
 import calendar
+import calendar
 import datetime
 import logging
 
@@ -9,6 +10,7 @@ from api.validators import EntrySerializer
 from api.validators import RecurrentSerializer
 from api.validators import UpdateEntrySerializer
 from clients.models import Client
+from dateutil.relativedelta import relativedelta
 from django.contrib.auth import authenticate
 from rest_framework import status
 from rest_framework import views
@@ -38,12 +40,45 @@ class NewRecurrentEntryView(views.APIView):
             if request.data.get("value") == 0:
                 return Response({})
 
+            times = int(request.data.get("times"))
+            day = int(request.data.get("day"))
+            value = request.data.get("value")
+            description = request.data.get("description")
+
+            if times == 0:
+                times = 120
+
             recurrent_entry = Recurrent(
                 user=client,
-                times=request.data.get("times"),
-                value=request.data.get("value"),
-                description=request.data.get("description"))
+                times=times,
+                day=day,
+                value=value,
+                description=description)
             recurrent_entry.save()
+
+            current_date = datetime.datetime.now()
+
+            while times > 0:
+
+                try:
+                    current_date = current_date.replace(day=day)
+                except ValueError as e:
+                    last_day = calendar.monthrange(
+                        current_date.year,
+                        current_date.month)[1]
+                    current_date = current_date.replace(day=last_day)
+
+                entry = Entry(
+                    user=client,
+                    order=1,
+                    date=current_date,
+                    value=value,
+                    comment=description,
+                    recurrent=recurrent_entry)
+                entry.save()
+
+                current_date = current_date + relativedelta(months=1)
+                times = times - 1
 
             return Response({})
         else:
@@ -107,13 +142,14 @@ class ListRecurrentEntriesView(views.APIView):
         """
 
         client = Client.objects.get(username=self.request.user.username)
-        entries = Recurrent.objects.filter(user=client)
+        entries = Recurrent.objects.filter(user=client, active=True)
 
         record_list = []
         for e in entries:
             record_list.append({
                 "id": e.pk,
                 "times": e.times,
+                "day": e.day,
                 "value": e.value,
                 "description": e.description,
                 "created_date": e.created_date,
@@ -321,18 +357,19 @@ class UpdateRecurrentEntryView(views.APIView):
 
                 client = Client.objects.get(
                     username=self.request.user.username)
-                entry = Recurrent.objects.filter(
+                recurrent_entry = Recurrent.objects.filter(
                     pk=entry_id, user=client).first()
                 if entry:
-                    entry.value = request.data.get("value")
-                    entry.times = request.data.get("times")
-                    entry.comment = request.data.get("comment")
-                    entry.save()
+                    recurrent_entry.value = request.data.get("value")
+                    recurrent_entry.times = request.data.get("times")
+                    recurrent_entry.comment = request.data.get("comment")
+                    recurrent_entry.save()
+
                 else:
                     return Response({
                         "error_code": "INVALID_UPDATE",
                         "errors": {
-                            "entry":
+                            "recurrent_entry":
                             "This recurrent entry does not belong to this user"
                         }
                     }, status=status.HTTP_400_BAD_REQUEST)
@@ -365,9 +402,16 @@ class DeleteRecurrentEntryView(views.APIView):
 
             client = Client.objects.get(
                 username=self.request.user.username)
-            entry = Recurrent.objects.filter(pk=entry_id, user=client).first()
-            if entry:
-                entry.delete()
+            recurrent_entry = Recurrent.objects.filter(
+                pk=entry_id, user=client).first()
+            if recurrent_entry:
+                recurrent_entry.active = False
+                recurrent_entry.save()
+
+                Entry.objects.filter(
+                    recurrent=recurrent_entry,
+                    date__gte=datetime.datetime.now()).delete()
+
             else:
                 return Response({
                     "error_code": "INVALID_DELETE",

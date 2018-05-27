@@ -8,6 +8,7 @@ class Recurrent(models.Model):
     user = models.ForeignKey(Client)
     value = models.DecimalField(max_digits=30, decimal_places=2, default=0)
     times = models.IntegerField()
+    day = models.IntegerField(default=1)
     description = models.CharField(max_length=255,
                                    null=True,
                                    blank=True)
@@ -17,9 +18,10 @@ class Recurrent(models.Model):
     modified_date = models.DateTimeField(auto_now=True,
                                          blank=True,
                                          null=True)
+    active = models.NullBooleanField(default=True)
 
     def __str__(self):
-        return str(self.value)
+        return str(self.pk)
 
     class Meta:
         verbose_name = "Recurrent"
