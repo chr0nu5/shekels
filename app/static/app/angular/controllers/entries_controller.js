@@ -40,6 +40,11 @@ shekels.controller('EntriesController', function($rootScope, $scope, $http, $sce
             }
 
             if (value == 0) {
+
+                // $('.preloader-it > .la-anim-1').removeClass('la-animate');
+                $(".preloader-it").fadeIn(0);
+                // $('.preloader-it > .la-anim-1').addClass('la-animate');
+
                 $http({
                     method: "DELETE",
                     url: API_URL + "/entry/" + id + "/delete/"
@@ -67,7 +72,6 @@ shekels.controller('EntriesController', function($rootScope, $scope, $http, $sce
                 })
                 .then(function(data) {
                     $scope.updateEntries();
-                    $(".preloader-it").delay(500).fadeOut("slow");
                 })
                 .catch(function(data) {
                     $rootScope.showErrors(data.data.errors);
@@ -167,10 +171,11 @@ shekels.controller('EntriesController', function($rootScope, $scope, $http, $sce
                     gridTextColor: '#878787',
                     gridTextFamily: "Roboto"
                 });
-
+                $(".preloader-it").delay(500).fadeOut("slow");
             })
             .catch(function(data) {
                 console.log(data.data);
+                $(".preloader-it").delay(500).fadeOut("slow");
             });
 
         // get the current entries (year) and project on the chart
