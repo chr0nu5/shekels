@@ -1,7 +1,7 @@
 shekels.controller('EntriesController', function($rootScope, $scope, $http, $sce, $compile, $location) {
 
-    $http.defaults.headers.common["Content-Type"] = "application/json; charset=utf-8";
-    $http.defaults.headers.common["Authorization"] = "Token " + storage.get("token");
+    $http.defaults.headers.post["Content-Type"] = "application/json; charset=utf-8";
+    $http.defaults.headers.post["Authorization"] = "Token " + storage.get("token");
 
     $rootScope.getProfile();
 

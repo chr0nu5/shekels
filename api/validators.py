@@ -78,8 +78,8 @@ class PasswordSerializer(serializers.Serializer):
 
 class RecurrentSerializer(serializers.Serializer):
 
-    times = serializers.IntegerField(max_value=12, min_value=0)
-    day = serializers.IntegerField(max_value=31, min_value=1)
+    times = serializers.IntegerField(max_value=1200, min_value=0)
+    day = serializers.CharField(max_length=10)
     value = serializers.DecimalField(
         max_digits=9,
         decimal_places=2,

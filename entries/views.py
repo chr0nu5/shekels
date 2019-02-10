@@ -41,39 +41,37 @@ class NewRecurrentEntryView(views.APIView):
                 return Response({})
 
             times = int(request.data.get("times"))
-            day = int(request.data.get("day"))
+            day = request.data.get("day")
             value = request.data.get("value")
             description = request.data.get("description")
 
             if times == 0:
-                times = 120
+                times = 1200
+                total = ""
+            else:
+                total = "/{}".format(times)
+
+            current_date = datetime.datetime.strptime(
+                day, '%m/%d/%Y').date()
+            max_times = times + 1
 
             recurrent_entry = Recurrent(
                 user=client,
                 times=times,
-                day=day,
+                day=current_date.day,
                 value=value,
                 description=description)
             recurrent_entry.save()
 
-            current_date = datetime.datetime.now()
-
             while times > 0:
-
-                try:
-                    current_date = current_date.replace(day=day)
-                except ValueError as e:
-                    last_day = calendar.monthrange(
-                        current_date.year,
-                        current_date.month)[1]
-                    current_date = current_date.replace(day=last_day)
 
                 entry = Entry(
                     user=client,
                     order=1,
                     date=current_date,
                     value=value,
-                    comment=description,
+                    comment="{} {}{}".format(
+                        description, max_times - times, total),
                     recurrent=recurrent_entry)
                 entry.save()
 
@@ -229,7 +227,7 @@ class ListEntriesView(views.APIView):
 
                 num_days = calendar.monthrange(int(year), int(m))[1]
                 days = [datetime.date(int(year), int(m), day)
-                        for day in range(1, num_days+1)]
+                        for day in range(1, num_days + 1)]
 
                 for d in days:
                     tmp_list = []
@@ -243,7 +241,7 @@ class ListEntriesView(views.APIView):
                                 "order": r.get("order"),
                                 "date": r.get("date"),
                                 "value": "-${}".format(
-                                    r.get("value")*-1) if r.get(
+                                    r.get("value") * -1) if r.get(
                                     "value") < 0 else "${}".format(
                                     r.get("value")),
                                 "naked_value": r.get("value"),

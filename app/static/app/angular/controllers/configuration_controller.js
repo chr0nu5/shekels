@@ -4,7 +4,7 @@ shekels.controller('ConfigurationController', function($rootScope, $scope, $http
     $scope.password_update = {};
     $scope.recurrent_entry = {
         "times": 0,
-        "day": 1
+        "day": ""
     };
 
     $scope.getRecurrentEntries = function() {
@@ -14,7 +14,7 @@ shekels.controller('ConfigurationController', function($rootScope, $scope, $http
 
         $scope.recurrent_entry = {
             "times": 0,
-            "day": 1
+            "day": ""
         };
 
         // $('.preloader-it > .la-anim-1').removeClass('la-animate');
